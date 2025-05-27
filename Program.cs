@@ -53,7 +53,6 @@ namespace Zooshop
             app.UseCors("AllowAngular");
 
             app.MapControllers();
-            app.MapGet("/", () => "API is running");
 
             app.Run();
         }
