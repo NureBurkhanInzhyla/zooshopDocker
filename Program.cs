@@ -10,9 +10,11 @@ namespace Zooshop
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.WebHost.ConfigureKestrel(options =>
+            builder.WebHost.UseKestrel(serverOptions =>
             {
-                options.ListenAnyIP(5000);
+
+                serverOptions.ListenAnyIP(5000);
+                serverOptions.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps());
             });
             builder.Services.AddCors(options =>
             {
