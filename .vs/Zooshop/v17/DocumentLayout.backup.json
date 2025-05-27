@@ -1,0 +1,169 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\models\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:models\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\controllers\\subscriptioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:controllers\\subscriptioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|c:\\users\\ingil\\onedrive\\desktop\\university\\zooshop\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A4170E8-5B60-4946-8E29-E50F9FA8722E}|Zooshop.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Dockerfile",
+              "RelativeDocumentMoniker": "Dockerfile",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Dockerfile",
+              "RelativeToolTip": "Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-27T13:38:50.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\ProductController.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAkwFUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T12:40:03.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Subscription.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Models\\Subscription.cs",
+              "RelativeDocumentMoniker": "Models\\Subscription.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Models\\Subscription.cs",
+              "RelativeToolTip": "Models\\Subscription.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T11:56:46.078Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SubscriptionController.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\SubscriptionController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SubscriptionController.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\SubscriptionController.cs",
+              "RelativeToolTip": "Controllers\\SubscriptionController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAkwEgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T11:33:11.641Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Models\\Order.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Models\\Order.cs",
+              "RelativeToolTip": "Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T10:09:56.769Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwDoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T10:06:29.01Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Controllers\\OrderController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAvwGQAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-25T23:39:49.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-25T11:53:39.894Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\ingil\\OneDrive\\Desktop\\university\\zooshop\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T20:10:45.706Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
