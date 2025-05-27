@@ -30,11 +30,8 @@ namespace Zooshop
                 });
             });
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            connectionString = connectionString.Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
-
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(connectionString));
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
