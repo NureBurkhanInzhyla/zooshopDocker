@@ -22,7 +22,7 @@ class Cart {
 }
 
 Future<List<Cart>> fetchCartsByUserId(int userId) async {
-  final response = await http.get(Uri.parse('https://localhost:7097/api/Cart/$userId'));
+  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Cart/$userId'));
 
   if (response.statusCode == 200) {
     List<dynamic> cartData = json.decode(response.body);
@@ -45,7 +45,7 @@ Future<List<Cart>> fetchCartsByUserId(int userId) async {
 }
 
 Future<void> addToCart(Cart cart) async {
-  final url = Uri.parse('https://localhost:7097/api/Cart'); 
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Cart');
 
   final response = await http.post(
     url,
@@ -64,7 +64,7 @@ Future<void> addToCart(Cart cart) async {
 }
 
 Future<void> deleteProductFromCart(int userId, int productId) async {
-  final url = Uri.parse('https://localhost:7097/api/Cart/DeleteProduct/$userId/$productId');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Cart/DeleteProduct/$userId/$productId');
 
   final response = await http.delete(url);
 
@@ -76,7 +76,7 @@ Future<void> deleteProductFromCart(int userId, int productId) async {
 }
 
 Future<void> clearCart(int userId) async {
-  final url = Uri.parse('https://localhost:7097/api/Cart/ClearCart/$userId');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Cart/ClearCart/$userId');
 
   final response = await http.delete(url);
 
@@ -88,7 +88,7 @@ Future<void> clearCart(int userId) async {
 }
 
 Future<void> updateCartItem(Cart cart) async {
-  final url = Uri.parse('https://localhost:7097/api/Cart');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Cart');
 
   final response = await http.put(
     url,

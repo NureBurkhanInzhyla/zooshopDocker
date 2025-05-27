@@ -40,7 +40,7 @@ class SubscriptionDTO {
 
 Future<List<SubscriptionDTO>> fetchSubscriptionsByUserId(int userId) async {
   final response = await http.get(
-    Uri.parse('https://localhost:7097/api/Subscription/user$userId'),
+    Uri.parse('https://zooshopdocker.onrender.com/api/Subscription/user$userId'),
   );
 
   if (response.statusCode == 200) {
@@ -60,7 +60,7 @@ Future<List<SubscriptionDTO>> fetchSubscriptionsByUserId(int userId) async {
 
 
 Future<void> createSubscription(SubscriptionDTO subscription) async {
-  final url = Uri.parse('https://localhost:7097/api/Subscription');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Subscription');
 
   final response = await http.post(
     url,
@@ -76,7 +76,7 @@ Future<void> createSubscription(SubscriptionDTO subscription) async {
 }
 
 Future<void> updateSubscriptionFrequency(int subscriptionId, int newFrequency) async {
-  final url = Uri.parse('https://localhost:7097/api/Subscription');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Subscription');
 
   final response = await http.put(
     url,
@@ -95,7 +95,7 @@ Future<void> updateSubscriptionFrequency(int subscriptionId, int newFrequency) a
 }
 
 Future<void> deleteSubscriptionById(int subscriptionId) async {
-  final url = Uri.parse('https://localhost:7097/api/Subscription/$subscriptionId');
+  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Subscription/$subscriptionId');
 
   final response = await http.delete(url);
 
