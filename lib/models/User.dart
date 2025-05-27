@@ -45,7 +45,7 @@ class UserDTO {
 }
 
 Future<UserDTO> fetchUserByUserEmail(String email, String password) async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/User/$email, $password'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/User/$email, $password'));
 
   if (response.statusCode == 200) {
     // Если запрос успешный, парсим JSON
@@ -68,7 +68,7 @@ Future<UserDTO> fetchUserByUserEmail(String email, String password) async {
 }
 
 Future<void> addUser(UserDTO user) async {
-  final url = Uri.parse('https://zooshopdocker.onrender.com/api/User');
+  final url = Uri.parse('https://zooshop-dnu7.onrender.com/api/User');
 
   final response = await http.post(
     url,
@@ -87,7 +87,7 @@ Future<void> addUser(UserDTO user) async {
 }
 
 Future<void> updateUser(UserDTO user) async {
-  final url = Uri.parse('https://zooshopdocker.onrender.com/api/User');
+  final url = Uri.parse('https://zooshop-dnu7.onrender.com/api/User');
 
   final response = await http.put(
     url,

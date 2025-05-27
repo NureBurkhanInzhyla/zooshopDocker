@@ -33,7 +33,7 @@ class ProductDTO {
 }
 
 Future<ProductDTO> fetchProductById(int id) async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Product/$id'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Product/$id'));
   if (response.statusCode == 200) {
     print(json.decode(response.body));
     return ProductDTO.fromJson(json.decode(response.body));
@@ -43,7 +43,7 @@ Future<ProductDTO> fetchProductById(int id) async {
 }
 
 Future<List<ProductDTO>> fetchProducts() async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Product'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Product'));
 
   if (response.statusCode == 200) {
     List<dynamic> data = json.decode(response.body);
@@ -87,7 +87,7 @@ Future<List<ProductDTO>> fetchProductsByFiltration({
 }
 
 Future<Map<String, List<String>>> fetchCategories() async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Product/Categories'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Product/Categories'));
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);

@@ -24,7 +24,7 @@ class OrderDTO {
 }
 
 Future<List<OrderDTO>> fetchOrdersByOrderId(int userId) async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Order/$userId'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Order/$userId'));
 
   if (response.statusCode == 200) {
     // Если запрос успешный, парсим JSON
@@ -53,7 +53,7 @@ Future<List<OrderDTO>> fetchOrdersByOrderId(int userId) async {
 }
 
 Future<List<OrderDTO>> fetchOrdersByUserId(int userId) async {
-  final response = await http.get(Uri.parse('https://zooshopdocker.onrender.com/api/Order/user$userId'));
+  final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Order/user$userId'));
 
   if (response.statusCode == 200) {
     // Если запрос успешный, парсим JSON
@@ -82,7 +82,7 @@ Future<List<OrderDTO>> fetchOrdersByUserId(int userId) async {
 }
 
 Future<void> createOrder(int userid) async {
-  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Order');
+  final url = Uri.parse('https://zooshop-dnu7.onrender.com/api/Order');
 
   final response = await http.post(
     url,
@@ -101,7 +101,7 @@ Future<void> createOrder(int userid) async {
 }
 
 Future<void> updateOrderState(int orderId, String state) async {
-  final url = Uri.parse('https://zooshopdocker.onrender.com/api/Order');
+  final url = Uri.parse('https://zooshop-dnu7.onrender.com/api/Order');
 
   final response = await http.put(
     url,
