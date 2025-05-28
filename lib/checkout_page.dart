@@ -8,7 +8,8 @@ import 'auth_service.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'package:zooshop/models/Cart.dart';
 import 'package:zooshop/models/Order.dart';
-
+import 'package:zooshop/models/Monobank.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -180,10 +181,21 @@ Widget build(BuildContext context) {
 
                   if (user != null) {
                     try {
-                      await createOrder(user.id!);
-                      await clearCart(user.id!);
-                      Provider.of<CartProvider>(context, listen: false).clear();
-                      showOrderConfirmationDialog(context);
+                      final MonobankService _monobankService = MonobankService();
+                      final url = await _monobankService.createInvoice(
+                        amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 1000, // 42.00 UAH
+                        currency: 980, // UAH (передаем как int, а не строку)
+                        description: 'Test payment',
+                        redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
+                        webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
+                      );
+                      final Uri _url = Uri.parse(url);
+                      await launchUrl(_url);
+
+                      // await createOrder(user.id!);
+                      // await clearCart(user.id!);
+                      // Provider.of<CartProvider>(context, listen: false).clear();
+                      // showOrderConfirmationDialog(context);
 
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
