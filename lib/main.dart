@@ -445,13 +445,13 @@ class ProductCard extends StatelessWidget {
             Column(
               children: [
                 SizedBox(height: 18),
-                Image.network(
+                Image.asset(
                   product.image,
                   height: 190,
                   width: 190,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) =>
-                      Icon(Icons.image_not_supported, size: 190),
+                    Icon(Icons.broken_image),
                 ),
                 SizedBox(height: 10),
                 Text(

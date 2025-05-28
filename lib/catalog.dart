@@ -534,7 +534,7 @@ class ProductCard extends StatelessWidget {
               height: 190,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
-                child: Image.network(
+                child: Image.asset(
                   product.image,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported),
