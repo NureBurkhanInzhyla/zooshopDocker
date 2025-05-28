@@ -69,7 +69,7 @@ Future<List<ProductDTO>> fetchProductsByFiltration({
   };
 
   final url = Uri.https(
-    'https://zooshop-dnu7.onrender.com', 
+    'zooshop-dnu7.onrender.com', 
     '/api/Product/Filtration', 
     queryParameters
   );
