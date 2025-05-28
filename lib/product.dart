@@ -62,7 +62,7 @@ class ProductBlock extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
+              Image.asset(
                 product.image,
                 width: 370,
                 height: 370,
