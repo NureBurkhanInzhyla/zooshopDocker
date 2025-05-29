@@ -181,20 +181,28 @@ Widget build(BuildContext context) {
 
                   if (user != null) {
                     try {
+                      int orderId = await createOrder(user.id!);
+                      await clearCart(user.id!);
+                      Provider.of<CartProvider>(context, listen: false).clear();
+
                       final MonobankService _monobankService = MonobankService();
                       final url = await _monobankService.createInvoice(
-                        amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 1000, // 42.00 UAH
+                        amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 100, // 42.00 UAH
                         currency: 980, // UAH (передаем как int, а не строку)
                         description: 'Test payment',
                         redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
                         webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
+                        reference: orderId.toString()
                       );
                       final Uri _url = Uri.parse(url);
                       await launchUrl(_url);
 
-                      // await createOrder(user.id!);
-                      // await clearCart(user.id!);
-                      // Provider.of<CartProvider>(context, listen: false).clear();
+                      Navigator.of(context).pop(); 
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => MainPage()),
+                        (route) => false,
+                      );
+                      
                       // showOrderConfirmationDialog(context);
 
                     } catch (e) {

@@ -11,6 +11,7 @@ class MonobankService {
     required String description,
     String? redirectUrl,
     String? webhookUrl,
+    String? reference
   }) async {
     final url = Uri.parse('$_baseUrl/api/merchant/invoice/create');
     final headers = {
@@ -24,6 +25,7 @@ class MonobankService {
       'description': description, // Описание платежа
       if (redirectUrl != null) 'redirectUrl': redirectUrl, // URL для редиректа после оплаты
       if (webhookUrl != null) 'webHookUrl': webhookUrl, // URL для уведомлений
+      if (reference != null) 'reference': reference, // URL для уведомлений
     });
 
     final response = await http.post(url, headers: headers, body: body);

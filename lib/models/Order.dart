@@ -81,7 +81,7 @@ Future<List<OrderDTO>> fetchOrdersByUserId(int userId) async {
   }
 }
 
-Future<void> createOrder(int userid) async {
+Future<int> createOrder(int userid) async {
   final url = Uri.parse('https://zooshop-dnu7.onrender.com/api/Order');
 
   final response = await http.post(
@@ -95,9 +95,12 @@ Future<void> createOrder(int userid) async {
   if (response.statusCode == 200) {
     print('Очередь была успешно создана из корзины');
     print(response.body);
+    return int.parse(response.body);
   } else {
     print('Не удалось создать очередь. Статус: ${response.statusCode}');
   }
+
+  return 0;
 }
 
 Future<void> updateOrderState(int orderId, String state) async {
