@@ -183,7 +183,6 @@ Widget build(BuildContext context) {
                     try {
                       int orderId = await createOrder(user.id!);
                       await clearCart(user.id!);
-                      Provider.of<CartProvider>(context, listen: false).clear();
 
                       final MonobankService _monobankService = MonobankService();
                       final url = await _monobankService.createInvoice(
@@ -196,6 +195,12 @@ Widget build(BuildContext context) {
                       );
                       final Uri _url = Uri.parse(url);
                       await launchUrl(_url);
+                      Provider.of<CartProvider>(context, listen: false).clear();
+                          Navigator.of(context).pop(); 
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => MainPage()),
+                        (route) => false,
+                      );
                       
                       // showOrderConfirmationDialog(context);
 
