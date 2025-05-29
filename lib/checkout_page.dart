@@ -196,12 +196,6 @@ Widget build(BuildContext context) {
                       );
                       final Uri _url = Uri.parse(url);
                       await launchUrl(_url);
-
-                      Navigator.of(context).pop(); 
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (_) => MainPage()),
-                        (route) => false,
-                      );
                       
                       // showOrderConfirmationDialog(context);
 
