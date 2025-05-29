@@ -4,8 +4,6 @@ import 'catalog.dart';
 import 'auth_service.dart';
 import 'main.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:zooshop/models/User.dart';
 import 'cart_page.dart';
 
@@ -589,12 +587,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
             OutlinedButton.icon(
               onPressed: () async {
-              final user = await SignInDemo.signIn(context);
-              if (user != null) {
-                print('User signed in: ${user.displayName}, ${user.email}');
-              } else {
-                print('Sign-in failed or cancelled');
-              }
+              signInWithGoogleCustom(context);
             },
               icon: Image.asset('assets/images/google_image.png', height: 24),
               label: Text(''),

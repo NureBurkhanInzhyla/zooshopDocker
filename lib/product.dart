@@ -4,6 +4,9 @@ import 'footer.dart';
 import 'package:zooshop/main.dart';
 import 'models/Product.dart';
 import 'main.dart' as mainPage;
+import 'package:provider/provider.dart';
+import 'auth_service.dart';
+import 'package:zooshop/cartProvider.dart';
 
 class ProductPage extends StatelessWidget {
     final ProductDTO product;
@@ -113,6 +116,7 @@ class ProductBlock extends StatelessWidget {
           oldPrice: product.discountPercent != null
               ? (product.price / (1 - product.discountPercent! / 100)).round().toString()
               : product.price.toString(),
+          product: product,
         ),
       ],
     );
@@ -124,11 +128,13 @@ class ProductBlock extends StatelessWidget {
 class PriceCard extends StatelessWidget {
   final String oldPrice;
   final String newPrice;
+  final ProductDTO product;
 
   const PriceCard({
     super.key,
     required this.oldPrice,
     required this.newPrice,
+    required this.product
   });
 
   @override
@@ -179,8 +185,15 @@ class PriceCard extends StatelessWidget {
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
-              onPressed: () {
-              },
+              onPressed: () async {
+                    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                    if (authProvider.isLoggedIn) {
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addOrUpdateCartItem(product, context);
+                    } else {
+                      showRegisterDialog(context);
+                    }
+                  },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF95C74E),
                 shape: RoundedRectangleBorder(
