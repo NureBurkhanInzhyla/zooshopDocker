@@ -25,7 +25,7 @@ class MonobankService {
       'description': description, // Описание платежа
       if (redirectUrl != null) 'redirectUrl': redirectUrl, // URL для редиректа после оплаты
       if (webhookUrl != null) 'webHookUrl': webhookUrl, // URL для уведомлений
-      if (reference != null) 'reference': reference, // URL для уведомлений
+      if (reference != null) 'merchantPaymInfo': {'reference': reference}, // URL для уведомлений
     });
 
     final response = await http.post(url, headers: headers, body: body);
