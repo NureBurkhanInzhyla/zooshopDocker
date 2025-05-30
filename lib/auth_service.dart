@@ -1,47 +1,45 @@
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:zooshop/models/User.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-Future<void> signInWithGoogle(BuildContext context) async {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-  if (googleUser == null) return; 
-
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
+Future<void> signInWithGoogleCustom(BuildContext context) async {
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+  clientId:
+      '480483901810-8de4qeeqob9a4cgrl3j2112fq38b19kj.apps.googleusercontent.com',
+  scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
   );
 
-  final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-    final firebaseUser = userCredential.user;
+  try {
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return; 
 
-    if (firebaseUser == null || firebaseUser.email == null) {
-      print('Ошибка: не удалось получить пользователя Firebase');
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final String? idToken = googleAuth.idToken;
+    if (idToken == null) {
+      print('Could not get idToken');
       return;
     }
 
-    UserDTO? user = await fetchUserByUserEmailGoogle(firebaseUser.email!);
-
-    if (user == null) {
-      user = UserDTO(
-        name: firebaseUser.displayName ?? '',
-        email: firebaseUser.email!,
-        password: '',
-        googleId: '',
-        address:'',
-      );
+    final UserDTO? user = await validateGoogleSignIn(idToken);
+    if (user != null) {
+      Provider.of<AuthProvider>(context, listen: false).login(user: user);
+    } else {
+      print('Error validating customer by Google');
     }
-
-    Provider.of<AuthProvider>(context, listen: false).login(user: user);
-    print('Succes sign in: ${user.name}');
+  } catch (error) {
+    print('Error Google-sign in: $error');
+  }
 }
-
 
 
 class AuthProvider extends ChangeNotifier { 
