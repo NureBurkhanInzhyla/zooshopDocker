@@ -36,13 +36,8 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     if (user != null) {
-      print("User is not null");
-      print("User name: " + user.name);
-      print("User email: " + user.email);
 
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      print(authProvider.user);
     } else {
       print('Error validating customer by Google');
     }
