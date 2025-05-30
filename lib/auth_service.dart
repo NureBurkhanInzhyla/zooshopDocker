@@ -50,9 +50,11 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     } else {
       print('Error validating customer by Google');
     }
-  } catch (error) {
+  } catch (error, stackTrace) {
     print('Error Google-sign in: $error');
+    print('Stack trace: $stackTrace');
   }
+
 }
 
 
