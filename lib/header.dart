@@ -587,7 +587,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
             OutlinedButton.icon(
               onPressed: () async {
-                signInWithGoogleCustom(context);
+                signInWithGoogle(context);
                 Navigator.of(context).pop();
 
             },
