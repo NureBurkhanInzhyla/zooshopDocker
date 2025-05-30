@@ -41,6 +41,8 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
       print("User email: " + user.email);
 
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      print(authProvider.user);
     } else {
       print('Error validating customer by Google');
     }
