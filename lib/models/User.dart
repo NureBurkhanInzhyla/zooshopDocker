@@ -79,6 +79,7 @@ Future<UserDTO?> fetchUserByUserEmailGoogle(String email) async {
       googleId: userData['googleId'],
       address: userData['address'],
     );
+print('User id from server: ${userData['id']}');
 
     return user;
   } else {

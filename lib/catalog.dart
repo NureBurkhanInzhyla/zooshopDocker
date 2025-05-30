@@ -601,7 +601,6 @@ class ProductCard extends StatelessWidget {
                 onPressed: () async {
                   final authProvider = Provider.of<AuthProvider>(context, listen: false);
                   if(authProvider.isLoggedIn){
-                      final userId = authProvider.user!.id!;
                       Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
                   }
                   else{
