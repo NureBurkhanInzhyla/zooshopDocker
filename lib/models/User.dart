@@ -79,7 +79,6 @@ Future<UserDTO?> fetchUserByUserEmailGoogle(String email) async {
       googleId: userData['googleId'],
       address: userData['address'],
     );
-print('User id from server: ${userData['id']}');
 
     return user;
   } else {
@@ -137,6 +136,7 @@ Future<UserDTO?> validateGoogleSignIn(String idToken) async {
 
   if (response.statusCode == 200) {
     final userData = json.decode(response.body);
+print('User id from server: ${userData['id']}');
 
     return UserDTO(
       id: userData['id'],
