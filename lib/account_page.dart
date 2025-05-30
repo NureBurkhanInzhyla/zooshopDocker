@@ -38,13 +38,13 @@ class _AccountPageState extends State<AccountPage> {
     if(user != null){
       final fullName = user.name;
 
-    final parts = fullName.split(' ');
-    final firstName = parts.isNotEmpty ? parts[0] : '';
-    final lastName = parts.length > 1 ? parts.sublist(1).join(' ') : '';
+      final parts = fullName.split(' ');
+      final firstName = parts.isNotEmpty ? parts[0] : '';
+      final lastName = parts.length > 1 ? parts.sublist(1).join(' ') : '';
 
-    nameController.text = firstName;
-    surnameController.text = lastName;
-    emailController.text = user.email;
+      nameController.text = firstName;
+      surnameController.text = lastName;
+      emailController.text = user.email;
     }
     
   }

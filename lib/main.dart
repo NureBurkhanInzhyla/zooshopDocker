@@ -22,9 +22,10 @@ void main() {
         ChangeNotifierProxyProvider<AuthProvider, CartProvider>(
           create: (_) => CartProvider(),
           update: (_, authProvider, cartProvider) {
-            if (authProvider.isLoggedIn) {
+            if (authProvider.isLoggedIn && authProvider.user?.id != null) {
               cartProvider!.setUser(authProvider.user!.id!);
             }
+
             return cartProvider!;
           },
         ),
