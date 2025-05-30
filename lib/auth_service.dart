@@ -1,11 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:zooshop/models/User.dart';
 
 Future<void> signInWithGoogleCustom(BuildContext context) async {
@@ -20,6 +16,10 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
    try {
     GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+
+    if (googleUser == null) {
+      googleUser = await googleSignIn.signIn();
+    }
 
     if (googleUser == null) {
       print('User cancelled sign-in');

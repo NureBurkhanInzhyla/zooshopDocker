@@ -417,22 +417,27 @@ class _RegisterDialogState extends State<RegisterDialog> {
       });
 
       try {
-          UserDTO newUser = UserDTO(
-            id: 0, 
-            name: name,
-            email: email,
-            password: password,
-          );
+        UserDTO newUser = UserDTO(
+          id: 0,
+          name: name,
+          email: email,
+          password: password,
+        );
 
-          addUser(newUser);
-          Provider.of<AuthProvider>(context, listen: false).login(user: newUser);
+        await addUser(newUser); 
 
-          Navigator.of(context).pop();
-        } catch (e) {
-          setState(() {
-            _error = 'Помилка при реєстрації'; 
-          });
-    }
+        final savedUser = await fetchUserByUserEmail(email, password); 
+
+        Provider.of<AuthProvider>(context, listen: false).login(user: savedUser);
+
+        Navigator.of(context).pop();
+      } catch (e) {
+        setState(() {
+          _error = 'Помилка при реєстрації'; 
+        });
+      }
+
+
   }
 
   @override
