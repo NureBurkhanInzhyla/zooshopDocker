@@ -11,7 +11,7 @@ import 'package:zooshop/models/User.dart';
 Future<void> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
   clientId:
-      '480483901810-8de4qeeqob9a4cgrl3j2112fq38b19kj.apps.googleusercontent.com',
+      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
