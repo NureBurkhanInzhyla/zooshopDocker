@@ -19,7 +19,11 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) return; 
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+print('serverAuthCode: ${googleUser.serverAuthCode}');
+
+final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+print('idToken: ${googleAuth.idToken}');
+print('accessToken: ${googleAuth.accessToken}');
 
     final String? idToken = googleAuth.idToken;
     if (idToken == null) {
