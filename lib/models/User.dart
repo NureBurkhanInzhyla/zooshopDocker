@@ -65,7 +65,7 @@ Future<UserDTO> fetchUserByUserEmail(String email, String password) async {
   }
 }
 
-Future<UserDTO> fetchUserByUserEmailGoogle(String email) async {
+Future<UserDTO?> fetchUserByUserEmailGoogle(String email) async {
   final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/User/$email'));
 
   if (response.statusCode == 200) {
