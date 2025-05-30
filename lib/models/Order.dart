@@ -87,9 +87,9 @@ Future<int> createOrder(int userid) async {
   final response = await http.post(
     url,
     headers: {
-      'Content-Type': 'application/json', // Указываем тип данных, которые отправляем
+      'Content-Type': 'application/json', 
     },
-    body: json.encode({'userId': userid}), // Преобразуем объект Cart в JSON
+    body: json.encode({'userId': userid}),
   );
 
   if (response.statusCode == 200) {

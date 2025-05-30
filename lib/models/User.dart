@@ -126,3 +126,27 @@ Future<void> updateUser(UserDTO user) async {
     print(response.body);
   }
 }
+
+Future<UserDTO?> validateGoogleSignIn(String idToken) async {
+  final response = await http.post(
+    Uri.parse('https://zooshop-dnu7.onrender.com/api/User/google-signin'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode(idToken),
+  );
+
+  if (response.statusCode == 200) {
+    final userData = json.decode(response.body);
+
+    return UserDTO(
+      id: userData['id'],
+      name: userData['name'],
+      email: userData['email'],
+      password: userData['password'],
+      googleId: userData['googleId'],
+      address: userData['address'],
+    );
+  } else {
+    print('Server error: ${response.statusCode} - ${response.body}');
+    return null;
+  }
+}

@@ -10,40 +10,28 @@ import 'package:zooshop/models/User.dart';
 
 
 Future<void> signInWithGoogleCustom(BuildContext context) async {
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: ['email'],
-  );
+  final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
 
   try {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) return; 
 
-    final String email = googleUser.email;
-    final String name = googleUser.displayName!;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    UserDTO user;
-
-    try {
-      user = await fetchUserByUserEmailGoogle(email);
-      print('Пользователь найден: ${user.name}');
-    } catch (e) {
-      print('Пользователь не найден. Создаём нового.');
-
-      user = UserDTO(
-        id: 0, 
-        name: name,
-        email: email,
-        password: '',
-        googleId: '',
-        address: '',
-      );
-
-      await addUser(user);
+    final String? idToken = googleAuth.idToken;
+    if (idToken == null) {
+      print('Could not get idToken');
+      return;
     }
 
-    Provider.of<AuthProvider>(context, listen: false).login(user: user);
+    final UserDTO? user = await validateGoogleSignIn(idToken);
+    if (user != null) {
+      Provider.of<AuthProvider>(context, listen: false).login(user: user);
+    } else {
+      print('Error validating customer by Google');
+    }
   } catch (error) {
-    print('Ошибка Google-входа: $error');
+    print('Error Google-sign in: $error');
   }
 }
 
