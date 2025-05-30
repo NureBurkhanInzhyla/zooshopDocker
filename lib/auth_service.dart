@@ -32,8 +32,7 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     final googleAuth = await googleUser.authentication;
 
-print('idToken: ${googleAuth.idToken}');
-print('accessToken: ${googleAuth.accessToken}');
+    print('idToken: ${googleAuth.idToken}');
 
     final String? idToken = googleAuth.idToken;
     if (idToken == null) {
@@ -43,6 +42,7 @@ print('accessToken: ${googleAuth.accessToken}');
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     if (user != null) {
+      print("User is not null");
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
     } else {
       print('Error validating customer by Google');
