@@ -18,11 +18,20 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     ],
   );
 
-  try {
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    if (googleUser == null) return; 
+   try {
+    GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    if (googleUser == null) {
+      googleUser = await googleSignIn.signIn();
+    }
+
+    if (googleUser == null) {
+      print('User cancelled sign-in');
+      return;
+    }
+
+    final googleAuth = await googleUser.authentication;
+
 
     final String? idToken = googleAuth.idToken;
     if (idToken == null) {
