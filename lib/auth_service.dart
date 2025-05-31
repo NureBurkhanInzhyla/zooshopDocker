@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/models/User.dart';
 
-Future<void> signInWithGoogleCustom(BuildContext context) async {
+Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
   clientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
@@ -21,7 +21,7 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     if (googleUser == null) {
       print('User cancelled sign-in');
-      return;
+      return null;
     }
 
     final googleAuth = await googleUser.authentication;
@@ -31,22 +31,16 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     final String? idToken = googleAuth.idToken;
     if (idToken == null) {
       print('Could not get idToken');
-      return;
+      return null;
     }
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     print(user);
     if (user == null) {
       print('Error validating customer by Google');
-      return;
+      return null;
     }
-    try{
-      print(user!.password.toString());
-    }catch(error){
-    print('Error: $error');
-
-    }
-    Provider.of<AuthProvider>(context, listen: false).login(user: user);
+    return user;
 
   } catch (error, stackTrace) {
     print('Error Google-sign in: $error');

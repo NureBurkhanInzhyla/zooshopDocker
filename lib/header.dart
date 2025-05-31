@@ -592,7 +592,13 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
             OutlinedButton.icon(
               onPressed: () async {
-                signInWithGoogleCustom(context);
+                final user = await signInWithGoogleCustom(context);
+                if (user != null) {
+                  Provider.of<AuthProvider>(context, listen: false).login(user: user);
+                  Navigator.of(context).pop();
+                } else {
+                  print('Google sign-in failed or user is null');
+                }
                 Navigator.of(context).pop();
 
             },
