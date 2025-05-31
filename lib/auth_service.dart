@@ -41,7 +41,7 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
       return;
     }
     try{
-      print(user!.address.toString());
+      print(user!.password.toString());
     }catch(error){
     print('Error: $error');
 
