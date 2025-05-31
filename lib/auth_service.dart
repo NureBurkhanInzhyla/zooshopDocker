@@ -35,6 +35,7 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     }
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
+    print(user);
     if (user == null) {
       print('Error validating customer by Google');
       return;
