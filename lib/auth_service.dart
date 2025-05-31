@@ -40,7 +40,12 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
       print('Error validating customer by Google');
       return;
     }
+    try{
+      print(user!.id.toString());
+    }catch(error){
+    print('Error: $error');
 
+    }
     Provider.of<AuthProvider>(context, listen: false).login(user: user);
 
   } catch (error, stackTrace) {
