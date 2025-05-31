@@ -36,20 +36,26 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     if (user != null) {
-print('Password: "${user.password}"');
-      print('Password is empty: ${user.password?.isEmpty}');
-      if(user.password == null) print("Password is null");
-      print('User fields:');
-print('id: ${user.id}');
-print('name: ${user.name}');
-print('email: ${user.email}');
-print('password: ${user.password}');
-print('address: ${user.address}');
-print('googleId: ${user.googleId}');
+      try{
+        user.address!.toString(); 
+      }catch(error){
+        print('Error address: $error');
+        
+      }
+      try{
+        user.password!.toString(); 
+      }catch(error){
+        print('Error pass: $error');
+        
+      }
+      try{
+        user.googleId!.toString(); 
+      }catch(error){
+        print('Error googleId: $error');
+        
+      }
 
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
-      
-
 
     } else {
       print('Error validating customer by Google');
