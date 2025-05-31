@@ -13,6 +13,10 @@ import 'catalog.dart';
 
 
 void main() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    debugPrintStack(stackTrace: details.stack);
+  };
   runApp(
     MultiProvider(
       providers: [

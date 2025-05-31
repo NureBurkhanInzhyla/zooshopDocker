@@ -137,7 +137,7 @@ Future<UserDTO?> validateGoogleSignIn(String idToken) async {
 
   if (response.statusCode == 200) {
     final userData = json.decode(response.body);
-    
+  
     return UserDTO(
       id: userData['id'],
       name: userData['name'],
