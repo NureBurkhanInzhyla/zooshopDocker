@@ -9,7 +9,8 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
   clientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
-      'email', 'profile'
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
@@ -34,12 +35,13 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     }
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
-    if (user != null) {
-      Provider.of<AuthProvider>(context, listen: false).login(user: user);
-
-    } else {
+    if (user == null) {
       print('Error validating customer by Google');
+      return;
     }
+
+    Provider.of<AuthProvider>(context, listen: false).login(user: user);
+
   } catch (error, stackTrace) {
     print('Error Google-sign in: $error');
     print('Stack trace: $stackTrace');
