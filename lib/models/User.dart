@@ -132,7 +132,7 @@ Future<UserDTO?> validateGoogleSignIn(String idToken) async {
   final response = await http.post(
     Uri.parse('https://zooshop-dnu7.onrender.com/api/User/google-signin'),
     headers: {'Content-Type': 'application/json'},
-    body: jsonEncode({'idToken': idToken}),
+    body: jsonEncode(idToken),
   );
 
   if (response.statusCode == 200) {
