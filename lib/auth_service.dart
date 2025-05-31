@@ -62,6 +62,7 @@ void login({required UserDTO user}) {
   _isLoggedIn = true;
   _user = user;
   notifyListeners();
+  print('AuthProvider.login called with user: ${user.id}, ${user.email}');
   print('AuthProvider state updated: isLoggedIn=$_isLoggedIn');
 }
 

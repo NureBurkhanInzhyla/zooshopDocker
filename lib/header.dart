@@ -12,8 +12,10 @@ class HeaderBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
+        print('HeaderBlock: isLoggedIn=${authProvider.isLoggedIn}, user=${authProvider.user}');
         return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 30),
