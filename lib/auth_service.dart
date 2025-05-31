@@ -9,36 +9,29 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   clientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
-     'email'
-      // 'https://www.googleapis.com/auth/contacts.readonly',
+      'email'
     ],
   );
 
    try {
-    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+
+      googleUser ??= await googleSignIn.signIn();
+
     if (googleUser == null) {
-        print('User cancelled sign-in');
-        return null;
-      }
+      print('User cancelled sign-in');
+      return null;
+    }
 
-      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      if (googleAuth.idToken == null) {
-        googleUser = await googleSignIn.signInSilently();
-        if (googleUser == null) {
-          print('Silent sign-in failed');
-          return null;
-        }
-        googleAuth = await googleUser.authentication;
-      }
+    final googleAuth = await googleUser.authentication;
 
-      final String? idToken = googleAuth.idToken;
+    print('idToken: ${googleAuth.idToken}');
 
-      print('idToken: $idToken');
-
-      if (idToken == null) {
-        print('Could not get idToken');
-        return null;
-      }
+    final String? idToken = googleAuth.idToken;
+    if (idToken == null) {
+      print('Could not get idToken');
+      return null;
+    }
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     print(user);
