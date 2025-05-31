@@ -10,11 +10,9 @@ import 'package:zooshop/models/Product.dart';
 import 'package:zooshop/product.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'catalog.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+void main() async{
+  
   runApp(
     MultiProvider(
       providers: [
