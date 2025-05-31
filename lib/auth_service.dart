@@ -63,11 +63,13 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   UserDTO? get user => _user;
 
-  void login({required UserDTO user}) {
-    _isLoggedIn = true;
-    _user = user;
-    notifyListeners();
-  }
+void login({required UserDTO user}) {
+  print('AuthProvider.login called with user: ${user.id}, ${user.email}');
+  _isLoggedIn = true;
+  _user = user;
+  notifyListeners();
+  print('AuthProvider state updated: isLoggedIn=$_isLoggedIn');
+}
 
   void logout() {
     _isLoggedIn = false;
