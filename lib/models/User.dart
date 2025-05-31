@@ -39,6 +39,13 @@ class UserDTO {
       address: address ?? this.address
     );
   }
+   @override
+  String toString() {
+    return 'UserDTO(id: $id, name: $name, email: $email, '
+           'password: ${password ?? "null"}, '
+           'googleId: ${googleId ?? "null"}, '
+           'address: ${address ?? "null"})';
+  }
 
   UserDTO({this.id, required this.name, required this.email, required this.password,
   this.googleId, this.address});
@@ -64,6 +71,7 @@ Future<UserDTO> fetchUserByUserEmail(String email, String password) async {
     throw Exception('Не удалось загрузить пользователя');
   }
 }
+
 
 Future<UserDTO?> fetchUserByUserEmailGoogle(String email) async {
   final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/User/$email'));
