@@ -601,7 +601,6 @@ class _RegisterDialogState extends State<RegisterDialog> {
                   Provider.of<AuthProvider>(context, listen: false).login(user: user);
                   Navigator.of(context).pop();
                 }
-                Navigator.of(context).pop();
 
             },
               icon: Image.asset('assets/images/google_image.png', height: 24),
