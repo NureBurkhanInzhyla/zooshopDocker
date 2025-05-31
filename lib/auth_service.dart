@@ -9,8 +9,7 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
   clientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
+      'email', 'profile'
     ],
   );
 
@@ -36,25 +35,6 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     if (user != null) {
-      try{
-        user.address!.toString(); 
-      }catch(error){
-        print('Error address: $error');
-        
-      }
-      try{
-        user.password!.toString(); 
-      }catch(error){
-        print('Error pass: $error');
-        
-      }
-      try{
-        user.googleId!.toString(); 
-      }catch(error){
-        print('Error googleId: $error');
-        
-      }
-
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
 
     } else {
