@@ -38,7 +38,9 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     if (user != null) {
 
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
-      if (user.password != null) print(user.password);
+      print('Password: "${user.password}"');
+      print('Password is empty: ${user.password?.isEmpty}');
+
 
     } else {
       print('Error validating customer by Google');
