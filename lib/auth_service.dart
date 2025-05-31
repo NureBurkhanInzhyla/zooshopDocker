@@ -39,6 +39,14 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 print('Password: "${user.password}"');
       print('Password is empty: ${user.password?.isEmpty}');
       if(user.password == null) print("Password is null");
+      print('User fields:');
+print('id: ${user.id}');
+print('name: ${user.name}');
+print('email: ${user.email}');
+print('password: ${user.password}');
+print('address: ${user.address}');
+print('googleId: ${user.googleId}');
+
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
       
 
