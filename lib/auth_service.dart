@@ -36,10 +36,10 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
     if (user != null) {
-
-      Provider.of<AuthProvider>(context, listen: false).login(user: user);
-      print('Password: "${user.password}"');
+print('Password: "${user.password}"');
       print('Password is empty: ${user.password?.isEmpty}');
+      Provider.of<AuthProvider>(context, listen: false).login(user: user);
+      
 
 
     } else {
