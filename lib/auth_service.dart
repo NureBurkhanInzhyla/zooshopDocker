@@ -38,6 +38,8 @@ Future<void> signInWithGoogleCustom(BuildContext context) async {
     if (user != null) {
 
       Provider.of<AuthProvider>(context, listen: false).login(user: user);
+      if (user.password != null) print(user.password);
+
     } else {
       print('Error validating customer by Google');
     }
