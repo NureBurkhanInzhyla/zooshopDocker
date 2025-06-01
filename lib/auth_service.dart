@@ -9,29 +9,25 @@ import 'dart:convert';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
+  clientId:
+      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
       'email'
     ],
-    clientId:
-      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com'
   );
 
    try {
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
       return null;
     }
-    // final googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-    final String? serverAuthCode = googleUser.serverAuthCode;
-    if (serverAuthCode == null) {
-      print('No server auth code received');
-      return null;
-    }
-    final tokens = await exchangeServerAuthCodeForTokens(serverAuthCode);
-    final idToken = tokens?['id_token'];
+
+    final String? idToken = googleAuth?.idToken;
     if (idToken == null) {
       print('Could not get idToken');
       return null;
