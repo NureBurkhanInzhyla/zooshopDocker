@@ -370,7 +370,7 @@ class _SalesBlockState extends State<SalesBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 450,
+          height: 500,
           child: Row(
             children: [
               IconButton(
