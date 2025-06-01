@@ -3,32 +3,31 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/models/User.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-  clientId:
-      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
-  scopes: [
-      'email'
-    ],
-  );
+  // final GoogleSignIn googleSignIn = GoogleSignIn(
+  // clientId:
+  //     '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
+  // scopes: [
+  //     'email'
+  //   ],
+  // );
 
    try {
-    await googleSignIn.disconnect();
-    GoogleSignInAccount? googleUser = await googleSignIn.signIn(); 
-
-      googleUser ??= await googleSignIn.signInSilently();
+     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
       return null;
     }
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-    final googleAuth = await googleUser.authentication;
 
 
-    final String? idToken = googleAuth.idToken;
-    print(idToken);
+
+    final String? idToken = googleAuth?.idToken;
     if (idToken == null) {
       print('Could not get idToken');
       return null;
