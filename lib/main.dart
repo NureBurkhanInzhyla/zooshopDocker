@@ -356,10 +356,6 @@ class _SalesBlockState extends State<SalesBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final displayProducts = widget.products.length > 5
-        ? widget.products.sublist(0, 5)
-        : widget.products;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -385,10 +381,10 @@ class _SalesBlockState extends State<SalesBlock> {
                 child: ListView.separated(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: displayProducts.length,
+                  itemCount: widget.products.length,
                   separatorBuilder: (_, __) => SizedBox(width: 20),
                   itemBuilder: (context, index) {
-                    final product = displayProducts[index];
+                    final product = widget.products[index];
                     return SizedBox(
                       width: 220,
                       child: ProductCard(product: product),
