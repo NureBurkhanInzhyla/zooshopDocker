@@ -177,15 +177,7 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                       color: Colors.brown[300],
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFFC16AFF),
-                    ),
-                  ),
+                 
                   SizedBox(height: 30),
                   MouseRegion(
                     cursor: SystemMouseCursors.click, 
@@ -254,6 +246,15 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                     ],
                   ),
                 ),
+                 SizedBox(height: 5),
+                  Text(
+                    'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFC16AFF),
+                    ),
+                  ),
               ],
             ),
           ],
