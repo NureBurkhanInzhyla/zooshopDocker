@@ -16,7 +16,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
    try {
     GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
-      googleUser ??= await googleSignIn.signIn();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
@@ -25,7 +24,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
     final googleAuth = await googleUser.authentication;
 
-    print('idToken: ${googleAuth.idToken}');
 
     final String? idToken = googleAuth.idToken;
     if (idToken == null) {
@@ -34,7 +32,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
     }
 
     final UserDTO? user = await validateGoogleSignIn(idToken);
-    print(user);
     if (user == null) {
       print('Error validating customer by Google');
       return null;

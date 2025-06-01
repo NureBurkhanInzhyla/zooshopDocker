@@ -341,38 +341,31 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) return Center(child: CircularProgressIndicator());
+    if (isLoading) return CircularProgressIndicator();
 
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Center(
-      child: SizedBox(
-        width: screenWidth * (1 - 0.18), 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Схожі товари",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 30),
-            Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              alignment: WrapAlignment.center,
-              children: similarProducts
-                  .map((product) => SizedBox(
-                        width: 220,
-                        child: mainPage.ProductCard(product: product),
-                      ))
-                  .toList(),
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "Схожі товари",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
+        SizedBox(height: 30),
+        Wrap(
+          spacing: 20,
+          runSpacing: 20,
+          alignment: WrapAlignment.center,
+          children: similarProducts
+              .map((product) => SizedBox(
+                    width: 220,
+                    child: mainPage.ProductCard(product: product),
+                  ))
+              .toList(),
+        ),
+      ],
     );
   }
 }
