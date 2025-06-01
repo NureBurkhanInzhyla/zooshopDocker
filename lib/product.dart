@@ -340,46 +340,71 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
   }
 
   @override
-Widget build(BuildContext context) {
-  if (isLoading) return Center(child: CircularProgressIndicator());
+  Widget build(BuildContext context) {
+    if (isLoading) return Center(child: CircularProgressIndicator());
 
-  final screenWidth = MediaQuery.of(context).size.width;
-  final contentWidth = screenWidth * (1 - 0.18);
-
-  return Center(
-    child: SizedBox(
-      width: contentWidth,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, 
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Схожі товари",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Схожі товари",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
-          SizedBox(height: 30),
-          Wrap(
-            spacing: 20,
-            runSpacing: 20,
-            alignment: WrapAlignment.center,
-            children: similarProducts
-                .map((product) => SizedBox(
+        ),
+        SizedBox(height: 30),
+        SizedBox(
+          height: 320, 
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: _scrollLeft,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  itemCount: similarProducts.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = similarProducts[index];
+                    return SizedBox(
                       width: 220,
                       child: mainPage.ProductCard(product: product),
-                    ))
-                .toList(),
+                    );
+                  },
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: _scrollRight,
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
+        ),
+      ],
+    );
+  }
+
+}
+
+final ScrollController _scrollController = ScrollController();
+
+void _scrollLeft() {
+  _scrollController.animateTo(
+    _scrollController.offset - 240, 
+    duration: Duration(milliseconds: 300),
+    curve: Curves.easeOut,
   );
 }
 
+void _scrollRight() {
+  _scrollController.animateTo(
+    _scrollController.offset + 240,
+    duration: Duration(milliseconds: 300),
+    curve: Curves.easeOut,
+  );
 }
-
 

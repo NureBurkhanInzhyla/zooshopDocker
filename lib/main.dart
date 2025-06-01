@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
       .toList()
       ..sort((a, b) => b.id.compareTo(a.id));
 
-    final latestFive = newProducts.take(5).toList();
+    final latestFive = newProducts.take(10).toList();
 
 
     return Scaffold(
@@ -328,90 +328,29 @@ class PromoConsultCard extends StatelessWidget {
 
 class SalesBlock extends StatelessWidget {
   final List<ProductDTO> products;
-
   const SalesBlock({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    final displayProducts = products.length > 5 ? products.sublist(0, 5) : products;
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Акції",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              children: [
-                Text("Дивитись усе"),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: 30),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: displayProducts.map((product) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: ProductCard(product: product),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
+    return HorizontalProductSlider(
+      title: "Акції",
+      products: products,
     );
   }
 }
 class NewsBlock extends StatelessWidget {
   final List<ProductDTO> products;
-
   const NewsBlock({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    final displayProducts = products.length > 5 ? products.sublist(0, 5) : products;
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Новинки",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              children: [
-                Text("Дивитись усе"),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: 30),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: displayProducts.map((product) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: ProductCard(product: product),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
+    return HorizontalProductSlider(
+      title: "Новинки",
+      products: products,
     );
   }
 }
+
 
 class ProductCard extends StatelessWidget {
   final ProductDTO product;
@@ -757,4 +696,64 @@ class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
     );
   }
 
+}
+class HorizontalProductSlider extends StatelessWidget {
+  final String title;
+  final List<ProductDTO> products;
+
+  const HorizontalProductSlider({
+    super.key,
+    required this.title,
+    required this.products,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const cardWidth = 220.0;
+        const spacing = 20.0;
+
+        final availableWidth = constraints.maxWidth;
+        final visibleCardsCount = (availableWidth / (cardWidth + spacing)).floor();
+        final displayProducts = products;
+
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  children: [
+                    Text("Дивитись усе"),
+                    SizedBox(width: 10),
+                    Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
+            SizedBox(
+              height: 300, // высота карточки
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: displayProducts.length,
+                separatorBuilder: (_, __) => SizedBox(width: spacing),
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    width: cardWidth,
+                    child: ProductCard(product: displayProducts[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
