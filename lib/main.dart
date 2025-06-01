@@ -370,13 +370,6 @@ class _SalesBlockState extends State<SalesBlock> {
               "Акції",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Text("Дивитись усе"),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
           ],
         ),
         SizedBox(height: 30),
