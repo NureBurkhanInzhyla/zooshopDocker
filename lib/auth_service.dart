@@ -16,6 +16,7 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
    try {
     GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
+      googleUser ??= await googleSignIn.signIn();
 
     if (googleUser == null) {
       print('User cancelled sign-in');

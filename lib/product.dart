@@ -340,34 +340,46 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (isLoading) return CircularProgressIndicator();
+Widget build(BuildContext context) {
+  if (isLoading) return Center(child: CircularProgressIndicator());
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          "Схожі товари",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
+  final screenWidth = MediaQuery.of(context).size.width;
+  final contentWidth = screenWidth * (1 - 0.18);
+
+  return Center(
+    child: SizedBox(
+      width: contentWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center, 
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Схожі товари",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
-        SizedBox(height: 30),
-        Wrap(
-          spacing: 20,
-          runSpacing: 20,
-          alignment: WrapAlignment.center,
-          children: similarProducts
-              .map((product) => SizedBox(
-                    width: 220,
-                    child: mainPage.ProductCard(product: product),
-                  ))
-              .toList(),
-        ),
-      ],
-    );
-  }
+          SizedBox(height: 30),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            alignment: WrapAlignment.center,
+            children: similarProducts
+                .map((product) => SizedBox(
+                      width: 220,
+                      child: mainPage.ProductCard(product: product),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 }
 
 
