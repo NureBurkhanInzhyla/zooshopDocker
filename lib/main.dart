@@ -356,9 +356,8 @@ class _SalesBlockState extends State<SalesBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final displayProducts = widget.products.length > 5
-        ? widget.products.sublist(0, 5)
-        : widget.products;
+    final products = widget.products;
+    final showArrows = products.length > 6;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -370,6 +369,7 @@ class _SalesBlockState extends State<SalesBlock> {
               "Акції",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
+          
           ],
         ),
         SizedBox(height: 30),
@@ -377,18 +377,19 @@ class _SalesBlockState extends State<SalesBlock> {
           height: 420,
           child: Row(
             children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: _scrollLeft,
-              ),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: _scrollLeft,
+                ),
               Expanded(
                 child: ListView.separated(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: displayProducts.length,
+                  itemCount: products.length,
                   separatorBuilder: (_, __) => SizedBox(width: 20),
                   itemBuilder: (context, index) {
-                    final product = displayProducts[index];
+                    final product = products[index];
                     return SizedBox(
                       width: 220,
                       child: ProductCard(product: product),
@@ -396,10 +397,11 @@ class _SalesBlockState extends State<SalesBlock> {
                   },
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: _scrollRight,
-              ),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: _scrollRight,
+                ),
             ],
           ),
         ),
@@ -407,6 +409,7 @@ class _SalesBlockState extends State<SalesBlock> {
     );
   }
 }
+
 
 class NewsBlock extends StatefulWidget {
   final List<ProductDTO> products;
@@ -438,9 +441,8 @@ class _NewsBlockState extends State<NewsBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final displayProducts = widget.products.length > 5
-        ? widget.products.sublist(0, 5)
-        : widget.products;
+    final products = widget.products;
+    final showArrows = products.length > 6;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,7 +454,7 @@ class _NewsBlockState extends State<NewsBlock> {
               "Новинки",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-          
+           
           ],
         ),
         SizedBox(height: 30),
@@ -460,18 +462,19 @@ class _NewsBlockState extends State<NewsBlock> {
           height: 420,
           child: Row(
             children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: _scrollLeft,
-              ),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: _scrollLeft,
+                ),
               Expanded(
                 child: ListView.separated(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: displayProducts.length,
+                  itemCount: products.length,
                   separatorBuilder: (_, __) => SizedBox(width: 20),
                   itemBuilder: (context, index) {
-                    final product = displayProducts[index];
+                    final product = products[index];
                     return SizedBox(
                       width: 220,
                       child: ProductCard(product: product),
@@ -479,10 +482,11 @@ class _NewsBlockState extends State<NewsBlock> {
                   },
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: _scrollRight,
-              ),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: _scrollRight,
+                ),
             ],
           ),
         ),
@@ -490,6 +494,7 @@ class _NewsBlockState extends State<NewsBlock> {
     );
   }
 }
+
 
 
 class ProductCard extends StatelessWidget {
