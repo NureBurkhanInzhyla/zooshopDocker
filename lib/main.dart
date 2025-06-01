@@ -326,16 +326,42 @@ class PromoConsultCard extends StatelessWidget {
   }
 }
 
-class SalesBlock extends StatelessWidget {
+class SalesBlock extends StatefulWidget {
   final List<ProductDTO> products;
 
   const SalesBlock({super.key, required this.products});
 
   @override
+  State<SalesBlock> createState() => _SalesBlockState();
+}
+
+class _SalesBlockState extends State<SalesBlock> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset - 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset + 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final displayProducts = products.length > 5 ? products.sublist(0, 5) : products;
+    final displayProducts = widget.products.length > 5
+        ? widget.products.sublist(0, 5)
+        : widget.products;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -344,41 +370,80 @@ class SalesBlock extends StatelessWidget {
               "Акції",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Text("Дивитись усе"),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
           ],
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        SizedBox(
+          height: 420,
           child: Row(
-            children: displayProducts.map((product) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: ProductCard(product: product),
-              );
-            }).toList(),
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: _scrollLeft,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: displayProducts.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = displayProducts[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: _scrollRight,
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 }
-class NewsBlock extends StatelessWidget {
+
+class NewsBlock extends StatefulWidget {
   final List<ProductDTO> products;
 
   const NewsBlock({super.key, required this.products});
 
   @override
+  State<NewsBlock> createState() => _NewsBlockState();
+}
+
+class _NewsBlockState extends State<NewsBlock> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset - 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset + 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final displayProducts = products.length > 5 ? products.sublist(0, 5) : products;
+    final displayProducts = widget.products.length > 5
+        ? widget.products.sublist(0, 5)
+        : widget.products;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -387,31 +452,45 @@ class NewsBlock extends StatelessWidget {
               "Новинки",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Text("Дивитись усе"),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
+          
           ],
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        SizedBox(
+          height: 420,
           child: Row(
-            children: displayProducts.map((product) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: ProductCard(product: product),
-              );
-            }).toList(),
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: _scrollLeft,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: displayProducts.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = displayProducts[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: _scrollRight,
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 }
+
 
 class ProductCard extends StatelessWidget {
   final ProductDTO product;
