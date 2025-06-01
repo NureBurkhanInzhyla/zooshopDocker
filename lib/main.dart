@@ -356,8 +356,9 @@ class _SalesBlockState extends State<SalesBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final products = widget.products;
-    final showArrows = products.length > 6;
+    final displayProducts = widget.products.length > 5
+        ? widget.products.sublist(0, 5)
+        : widget.products;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,26 +370,32 @@ class _SalesBlockState extends State<SalesBlock> {
               "Акції",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-          
+            Row(
+              children: [
+                Text("Дивитись усе"),
+                SizedBox(width: 10),
+                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
+              ],
+            ),
           ],
         ),
         SizedBox(height: 30),
         SizedBox(
+          height: 420,
           child: Row(
             children: [
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: _scrollLeft,
-                ),
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: _scrollLeft,
+              ),
               Expanded(
                 child: ListView.separated(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
+                  itemCount: displayProducts.length,
                   separatorBuilder: (_, __) => SizedBox(width: 20),
                   itemBuilder: (context, index) {
-                    final product = products[index];
+                    final product = displayProducts[index];
                     return SizedBox(
                       width: 220,
                       child: ProductCard(product: product),
@@ -396,11 +403,10 @@ class _SalesBlockState extends State<SalesBlock> {
                   },
                 ),
               ),
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: _scrollRight,
-                ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: _scrollRight,
+              ),
             ],
           ),
         ),
@@ -409,42 +415,16 @@ class _SalesBlockState extends State<SalesBlock> {
   }
 }
 
-
-class NewsBlock extends StatefulWidget {
+class NewsBlock extends StatelessWidget {
   final List<ProductDTO> products;
 
   const NewsBlock({super.key, required this.products});
 
   @override
-  State<NewsBlock> createState() => _NewsBlockState();
-}
-
-class _NewsBlockState extends State<NewsBlock> {
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollLeft() {
-    _scrollController.animateTo(
-      _scrollController.offset - 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  void _scrollRight() {
-    _scrollController.animateTo(
-      _scrollController.offset + 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final products = widget.products;
-    final showArrows = products.length > 6;
+    final displayProducts = products.length > 5 ? products.sublist(0, 5) : products;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -453,47 +433,31 @@ class _NewsBlockState extends State<NewsBlock> {
               "Новинки",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-           
+            Row(
+              children: [
+                Text("Дивитись усе"),
+                SizedBox(width: 10),
+                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
+              ],
+            ),
           ],
         ),
         SizedBox(height: 30),
-        SizedBox(
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: _scrollLeft,
-                ),
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 20),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return SizedBox(
-                      width: 220,
-                      child: ProductCard(product: product),
-                    );
-                  },
-                ),
-              ),
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: _scrollRight,
-                ),
-            ],
+            children: displayProducts.map((product) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: ProductCard(product: product),
+              );
+            }).toList(),
           ),
         ),
       ],
     );
   }
 }
-
-
 
 class ProductCard extends StatelessWidget {
   final ProductDTO product;
