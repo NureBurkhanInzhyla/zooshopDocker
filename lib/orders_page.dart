@@ -223,7 +223,7 @@ class _OrdersPageState extends State<OrdersPage> {
       final firstOrder = orderItems[0]; 
 
       Color statusColor;
-      final isCancellable = firstOrder.state == 'В обробці' || firstOrder.state == 'Не оплачен';
+      final isCancellable = firstOrder.state == 'В обробці' || firstOrder.state == 'Не оплачен' || firstOrder.state == "Оплачено";
       final canReorder = firstOrder.state == 'Скасовано' || firstOrder.state == 'Доставлено';
 
       switch (firstOrder.state) {
