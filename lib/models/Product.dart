@@ -114,5 +114,5 @@ Future<List<ProductDTO>> fetchSimilarProducts(ProductDTO product) async {
     for (var p in all) p.id: p
   }.values.toList();
 
-  return unique.where((p) => p.id != product.id).take(5).toList();
+  return unique.where((p) => p.id != product.id).take(6).toList();
 }
