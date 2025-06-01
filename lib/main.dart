@@ -326,39 +326,83 @@ class PromoConsultCard extends StatelessWidget {
   }
 }
 
-class SalesBlock extends StatelessWidget {
+class SalesBlock extends StatefulWidget {
   final List<ProductDTO> products;
 
   const SalesBlock({super.key, required this.products});
 
   @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final availableWidth = screenWidth * 0.82; // адаптируй под свою верстку
-    const cardWidth = 220.0;
-    const spacing = 20.0;
+  State<SalesBlock> createState() => _SalesBlockState();
+}
 
-    final maxCards = ((availableWidth + spacing) / (cardWidth + spacing)).floor();
-    final visibleProducts = products.take(maxCards).toList();
+class _SalesBlockState extends State<SalesBlock> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset - 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset + 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final products = widget.products;
+    final showArrows = products.length > 6;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Акції",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Акції",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          
+          ],
         ),
         SizedBox(height: 30),
-        Row(
-          children: visibleProducts.map((product) {
-            return Padding(
-              padding: const EdgeInsets.only(right: spacing),
-              child: SizedBox(
-                width: cardWidth,
-                child: ProductCard(product: product),
+        SizedBox(
+          child: Row(
+            children: [
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: _scrollLeft,
+                ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
               ),
-            );
-          }).toList(),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: _scrollRight,
+                ),
+            ],
+          ),
         ),
       ],
     );
@@ -366,40 +410,83 @@ class SalesBlock extends StatelessWidget {
 }
 
 
-
-class NewsBlock extends StatelessWidget {
+class NewsBlock extends StatefulWidget {
   final List<ProductDTO> products;
 
   const NewsBlock({super.key, required this.products});
 
   @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final availableWidth = screenWidth * 0.82;
-    const cardWidth = 220.0;
-    const spacing = 20.0;
+  State<NewsBlock> createState() => _NewsBlockState();
+}
 
-    final maxCards = ((availableWidth + spacing) / (cardWidth + spacing)).floor();
-    final visibleProducts = products.take(maxCards).toList();
+class _NewsBlockState extends State<NewsBlock> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset - 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset + 240,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final products = widget.products;
+    final showArrows = products.length > 6;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Новинки",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Новинки",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+           
+          ],
         ),
         SizedBox(height: 30),
-        Row(
-          children: visibleProducts.map((product) {
-            return Padding(
-              padding: const EdgeInsets.only(right: spacing),
-              child: SizedBox(
-                width: cardWidth,
-                child: ProductCard(product: product),
+        SizedBox(
+          child: Row(
+            children: [
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: _scrollLeft,
+                ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
               ),
-            );
-          }).toList(),
+              if (showArrows)
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: _scrollRight,
+                ),
+            ],
+          ),
         ),
       ],
     );
