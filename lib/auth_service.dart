@@ -6,18 +6,18 @@ import 'package:zooshop/models/User.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
-  // final GoogleSignIn googleSignIn = GoogleSignIn(
-  // clientId:
-  //     '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
-  // scopes: [
-  //     'email'
-  //   ],
-  // );
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+  clientId:
+      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
+  scopes: [
+      'email'
+    ],
+  );
 
    try {
-    await GoogleSignIn().signOut();
+     await googleSignIn.disconnect();
 
-     final GoogleSignInAccount? googleUser = await GoogleSignIn().signInSilently();
+     final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
