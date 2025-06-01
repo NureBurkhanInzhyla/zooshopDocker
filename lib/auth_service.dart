@@ -12,7 +12,7 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   scopes: [
       'email'
     ],
-    serverClientId:
+    clientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com'
   );
 
