@@ -459,7 +459,7 @@ class _NewsBlockState extends State<NewsBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 400,
+          height: 380,
           child: Row(
             children: [
               if (showArrows)

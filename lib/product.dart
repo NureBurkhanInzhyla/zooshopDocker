@@ -355,7 +355,7 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 420, 
+          height: 380, 
           child: Row(
             children: [
               IconButton(
