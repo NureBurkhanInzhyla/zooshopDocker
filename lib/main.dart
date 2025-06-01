@@ -326,83 +326,39 @@ class PromoConsultCard extends StatelessWidget {
   }
 }
 
-class SalesBlock extends StatefulWidget {
+class SalesBlock extends StatelessWidget {
   final List<ProductDTO> products;
 
   const SalesBlock({super.key, required this.products});
 
   @override
-  State<SalesBlock> createState() => _SalesBlockState();
-}
-
-class _SalesBlockState extends State<SalesBlock> {
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollLeft() {
-    _scrollController.animateTo(
-      _scrollController.offset - 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  void _scrollRight() {
-    _scrollController.animateTo(
-      _scrollController.offset + 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final products = widget.products;
-    final showArrows = products.length > 6;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final availableWidth = screenWidth * 0.82; // адаптируй под свою верстку
+    const cardWidth = 220.0;
+    const spacing = 20.0;
+
+    final maxCards = ((availableWidth + spacing) / (cardWidth + spacing)).floor();
+    final visibleProducts = products.take(maxCards).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Акції",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-          
-          ],
+        Text(
+          "Акції",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 30),
-        SizedBox(
-          child: Row(
-            children: [
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: _scrollLeft,
-                ),
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 20),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return SizedBox(
-                      width: 220,
-                      child: ProductCard(product: product),
-                    );
-                  },
-                ),
+        Row(
+          children: visibleProducts.map((product) {
+            return Padding(
+              padding: const EdgeInsets.only(right: spacing),
+              child: SizedBox(
+                width: cardWidth,
+                child: ProductCard(product: product),
               ),
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: _scrollRight,
-                ),
-            ],
-          ),
+            );
+          }).toList(),
         ),
       ],
     );
@@ -410,83 +366,40 @@ class _SalesBlockState extends State<SalesBlock> {
 }
 
 
-class NewsBlock extends StatefulWidget {
+
+class NewsBlock extends StatelessWidget {
   final List<ProductDTO> products;
 
   const NewsBlock({super.key, required this.products});
 
   @override
-  State<NewsBlock> createState() => _NewsBlockState();
-}
-
-class _NewsBlockState extends State<NewsBlock> {
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollLeft() {
-    _scrollController.animateTo(
-      _scrollController.offset - 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  void _scrollRight() {
-    _scrollController.animateTo(
-      _scrollController.offset + 240,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final products = widget.products;
-    final showArrows = products.length > 6;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final availableWidth = screenWidth * 0.82;
+    const cardWidth = 220.0;
+    const spacing = 20.0;
+
+    final maxCards = ((availableWidth + spacing) / (cardWidth + spacing)).floor();
+    final visibleProducts = products.take(maxCards).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Новинки",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-           
-          ],
+        Text(
+          "Новинки",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 30),
-        SizedBox(
-          child: Row(
-            children: [
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: _scrollLeft,
-                ),
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 20),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return SizedBox(
-                      width: 220,
-                      child: ProductCard(product: product),
-                    );
-                  },
-                ),
+        Row(
+          children: visibleProducts.map((product) {
+            return Padding(
+              padding: const EdgeInsets.only(right: spacing),
+              child: SizedBox(
+                width: cardWidth,
+                child: ProductCard(product: product),
               ),
-              if (showArrows)
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: _scrollRight,
-                ),
-            ],
-          ),
+            );
+          }).toList(),
         ),
       ],
     );

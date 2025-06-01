@@ -312,99 +312,56 @@ class _DetailBlockState extends State<DetailBlock> {
 }
 
 
-class RecomendationBlock extends StatefulWidget {
+class RecomendationBlock extends StatelessWidget {
   final ProductDTO product;
 
   const RecomendationBlock({super.key, required this.product});
 
   @override
-  State<RecomendationBlock> createState() => _RecomendationBlockState();
-}
-
-class _RecomendationBlockState extends State<RecomendationBlock> {
-  List<ProductDTO> similarProducts = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSimilar();
-  }
-
-  Future<void> _loadSimilar() async {
-    final products = await fetchSimilarProducts(widget.product);
-    setState(() {
-      similarProducts = products;
-      isLoading = false;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (isLoading) return Center(child: CircularProgressIndicator());
+    return FutureBuilder<List<ProductDTO>>(
+      future: fetchSimilarProducts(product),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Схожі товари",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 30),
-        SizedBox(
-          height: 380, 
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: _scrollLeft,
+        final screenWidth = MediaQuery.of(context).size.width;
+        final availableWidth = screenWidth * 0.82; // если в центре как на главной
+        final cardWidth = 220.0;
+        final spacing = 20.0;
+        final maxCards = ((availableWidth + spacing) / (cardWidth + spacing)).floor();
+
+        final products = snapshot.data!;
+        final visibleProducts = products.take(maxCards).toList();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Схожі товари",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
               ),
-              Expanded(
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  itemCount: similarProducts.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 20),
-                  itemBuilder: (context, index) {
-                    final product = similarProducts[index];
-                    return SizedBox(
-                      width: 220,
-                      child: mainPage.ProductCard(product: product),
-                    );
-                  },
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: _scrollRight,
-              ),
-            ],
-          ),
-        ),
-      ],
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: visibleProducts.map((product) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: SizedBox(
+                    width: cardWidth,
+                    child: mainPage.ProductCard(product: product),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        );
+      },
     );
   }
-
-}
-
-final ScrollController _scrollController = ScrollController();
-
-void _scrollLeft() {
-  _scrollController.animateTo(
-    _scrollController.offset - 240, 
-    duration: Duration(milliseconds: 300),
-    curve: Curves.easeOut,
-  );
-}
-
-void _scrollRight() {
-  _scrollController.animateTo(
-    _scrollController.offset + 240,
-    duration: Duration(milliseconds: 300),
-    curve: Curves.easeOut,
-  );
 }
 
