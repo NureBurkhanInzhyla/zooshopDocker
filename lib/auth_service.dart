@@ -7,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
-  clientId:
+  serverClientId:
       '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
       'email'
@@ -15,10 +15,8 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   );
 
    try {
-    await googleSignIn.signOut();
-    await googleSignIn.disconnect();
 
-    final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
