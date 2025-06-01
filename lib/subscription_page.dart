@@ -169,6 +169,7 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                       color: Color(0xFF333333),
                     ),
                   ),
+                  
                   SizedBox(height: 4),
                   Text(
                     subscription.product.desc ?? '',
@@ -217,6 +218,18 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                     color: Color(0xFF333333),
                   ),
                 ),
+                 if (subscription.product.discountPercent != null) ...[
+                  SizedBox(width: 10),
+                  Text(
+                    '${(subscription.product.price / (1 - subscription.product.discountPercent! / 100)).round()} ₴',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                ],
+   
                 SizedBox(height: 4),
                 Text.rich(
                   TextSpan(
@@ -252,7 +265,7 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFFC16AFF),
+                      color: Color(0xFF95C74E),
                     ),
                   ),
               ],
