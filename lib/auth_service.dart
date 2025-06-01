@@ -15,6 +15,8 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   // );
 
    try {
+    await GoogleSignIn().disconnect();
+
      final GoogleSignInAccount? googleUser = await GoogleSignIn().signInSilently();
 
     if (googleUser == null) {
