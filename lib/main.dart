@@ -370,7 +370,7 @@ class _SalesBlockState extends State<SalesBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 500,
+          height: 420,
           child: Row(
             children: [
               IconButton(
@@ -380,6 +380,7 @@ class _SalesBlockState extends State<SalesBlock> {
               Expanded(
                 child: ListView.separated(
                   controller: _scrollController,
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.products.length,
                   separatorBuilder: (_, __) => SizedBox(width: 20),
