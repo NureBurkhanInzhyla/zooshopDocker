@@ -9,11 +9,11 @@ import 'dart:convert';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
-  serverClientId:
-      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
   scopes: [
       'email'
     ],
+    serverClientId:
+      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com'
   );
 
    try {
