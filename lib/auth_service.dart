@@ -14,9 +14,10 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   );
 
    try {
-    GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+    await googleSignIn.disconnect();
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn(); 
 
-      googleUser ??= await googleSignIn.signIn();
+      googleUser ??= await googleSignIn.signInSilently();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
@@ -27,6 +28,7 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
 
     final String? idToken = googleAuth.idToken;
+    print(idToken);
     if (idToken == null) {
       print('Could not get idToken');
       return null;

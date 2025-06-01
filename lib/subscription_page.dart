@@ -182,6 +182,7 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                     'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xFFC16AFF),
                     ),
                   ),
