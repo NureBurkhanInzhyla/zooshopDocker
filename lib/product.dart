@@ -341,142 +341,40 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) return CircularProgressIndicator();
+    if (isLoading) return Center(child: CircularProgressIndicator());
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Схожі товари",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Center(
+      child: SizedBox(
+        width: screenWidth * (1 - 0.18), 
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Схожі товари",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 30),
+            Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
+              children: similarProducts
+                  .map((product) => SizedBox(
+                        width: 220,
+                        child: mainPage.ProductCard(product: product),
+                      ))
+                  .toList(),
+            ),
+          ],
         ),
-        SizedBox(height: 30),
-        Wrap(
-          spacing: 20,
-          runSpacing: 20,
-          alignment: WrapAlignment.center,
-          children: similarProducts
-              .map((product) => SizedBox(
-                    width: 220,
-                    child: mainPage.ProductCard(product: product),
-                  ))
-              .toList(),
-        ),
-      ],
+      ),
     );
   }
 }
 
 
-// class ProductCard extends StatelessWidget {
-//   const ProductCard({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 200,
-//       padding: EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(12),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black26,
-//             blurRadius: 4,
-//             offset: Offset(0, 2),
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         children: [
-//           // Изображение продукта
-//           SizedBox(height: 10),
-//           Image.asset(
-//             'assets/images/product.png', // Путь к изображению товара
-//             height: 120,
-//             fit: BoxFit.cover,
-//           ),
-//           SizedBox(height: 10),
-//           // Название продукта
-//           Text(
-//             'Brit Care Mono Protein',
-//             style: TextStyle(
-//               fontWeight: FontWeight.bold,
-//               fontSize: 16,
-//             ),
-//             textAlign: TextAlign.center,
-//           ),
-//           // Описание
-//           Text(
-//             'вологий корм для собак 400 г - кролик',
-//             style: TextStyle(
-//               color: Colors.grey,
-//               fontSize: 12,
-//             ),
-//             textAlign: TextAlign.center,
-//           ),
-//           // Цена
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Text(
-//                 '298 ₴',
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 16,
-//                 ),
-//               ),
-//               SizedBox(width: 8),
-//               Text(
-//                 '450 ₴',
-//                 style: TextStyle(
-//                   decoration: TextDecoration.lineThrough,
-//                   color: Colors.grey,
-//                   fontSize: 14,
-//                 ),
-//               ),
-//             ],
-//           ),
-//           // Кнопка
-//           SizedBox(height: 10),
-//           ElevatedButton(
-//             onPressed: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => ProductPage(),
-//                 ),
-//               );
-//             },
-//             style: ElevatedButton.styleFrom(
-//               backgroundColor: Colors.purple, // Цвет кнопки
-//               padding: EdgeInsets.symmetric(
-//                 horizontal: 20,
-//                 vertical: 12,
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(8),
-//               ),
-//             ),
-//             child: Text(
-//               'Купити',
-//               style: TextStyle(color: Colors.white),
-//             ),
-//           ),
-//           // Кнопка "Купить за 1 клик"
-//           SizedBox(height: 10),
-//           TextButton(
-//             onPressed: () {},
-//             child: Text(
-//               'Купити за 1 клік',
-//               style: TextStyle(color: Colors.purple),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

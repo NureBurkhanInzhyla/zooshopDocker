@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:zooshop/models/Subscription.dart';
 import 'auth_service.dart';
+import 'package:intl/intl.dart';
+
 
 class SubscriptionPage extends StatefulWidget {
   @override
@@ -134,6 +136,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 }
 
 Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
+  final now = DateTime.now();
+  final startDate = DateTime.parse(subscription.startDate);
+  final weeksPassed = now.difference(startDate).inDays ~/ 7;
+  final nextDelivery = startDate.add(Duration(days: (weeksPassed + 1) * 7));
+
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
     child: Column(
@@ -168,6 +175,14 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       color: Colors.brown[300],
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 12,
+                      color: Colors.grey,
                     ),
                   ),
                   SizedBox(height: 30),

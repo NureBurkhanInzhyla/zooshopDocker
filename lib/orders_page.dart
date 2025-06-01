@@ -18,6 +18,8 @@ class _OrdersPageState extends State<OrdersPage> {
   List<OrderDTO> orders = [];
 
   Map<int, List<OrderDTO>> _groupOrdersByOrderId(List<OrderDTO> orders) {
+    orders.sort((a, b) => b.orderId.compareTo(a.orderId));
+
     Map<int, List<OrderDTO>> grouped = {};
     for (var order in orders) {
       grouped.putIfAbsent(order.orderId, () => []);
@@ -25,6 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
     }
     return grouped;
   }
+
 
   @override
   Widget build(BuildContext context) {

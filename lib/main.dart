@@ -106,7 +106,12 @@ class _MainPageState extends State<MainPage> {
     }
 
     final salesProducts = products.where((p) => p.discountPercent != null).toList();
-    // final newProducts = products.where((p) => p.isNew).toList();
+    final newProducts = products
+      .toList()
+      ..sort((a, b) => b.id.compareTo(a.id));
+
+    final latestFive = newProducts.take(5).toList();
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -124,7 +129,7 @@ class _MainPageState extends State<MainPage> {
                 SizedBox(height: 130),
                 PromoConsultCard(),
                 SizedBox(height: 100),
-                NewsBlock(products: products),
+                NewsBlock(products: latestFive),
                 SizedBox(height: 50),
                 BrandsBlock(),
                 SizedBox(height: 70),
