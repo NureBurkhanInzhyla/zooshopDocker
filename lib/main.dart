@@ -381,22 +381,19 @@ class _SalesBlockState extends State<SalesBlock> {
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: _scrollLeft,
                 ),
-                Expanded(
-                    child: SizedBox(
-                    height: 410,
-                    child: ListView.separated(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: products.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 20),
-                    itemBuilder: (context, index) {
-                      final product = products[index];
-                      return SizedBox(
-                        width: 220,
-                        child: ProductCard(product: product),
-                      );
-                    },
-                  ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
                 ),
               ),
               if (showArrows)
@@ -469,22 +466,19 @@ class _NewsBlockState extends State<NewsBlock> {
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: _scrollLeft,
                 ),
-                Expanded(
-                    child: SizedBox(
-                    height: 410,
-                    child: ListView.separated(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: products.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 20),
-                    itemBuilder: (context, index) {
-                      final product = products[index];
-                      return SizedBox(
-                        width: 220,
-                        child: ProductCard(product: product),
-                      );
-                    },
-                  ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return SizedBox(
+                      width: 220,
+                      child: ProductCard(product: product),
+                    );
+                  },
                 ),
               ),
               if (showArrows)
