@@ -374,7 +374,7 @@ class _SalesBlockState extends State<SalesBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 420,
+          height: 400,
           child: Row(
             children: [
               if (showArrows)
@@ -459,7 +459,7 @@ class _NewsBlockState extends State<NewsBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 420,
+          height: 400,
           child: Row(
             children: [
               if (showArrows)
