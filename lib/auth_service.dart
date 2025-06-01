@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/models/User.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -15,18 +17,21 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   );
 
    try {
-
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser == null) {
       print('User cancelled sign-in');
       return null;
     }
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    // final googleAuth = await googleUser.authentication;
 
-
-    final String? idToken = googleAuth?.idToken;
+    final String? serverAuthCode = googleUser.serverAuthCode;
+    if (serverAuthCode == null) {
+      print('No server auth code received');
+      return null;
+    }
+    final tokens = await exchangeServerAuthCodeForTokens(serverAuthCode);
+    final idToken = tokens?['id_token'];
     if (idToken == null) {
       print('Could not get idToken');
       return null;
@@ -71,3 +76,26 @@ void login({required UserDTO user}) {
   }
 }
 
+Future<Map<String, dynamic>?> exchangeServerAuthCodeForTokens(
+    String serverAuthCode) async {
+  final response = await http.post(
+    Uri.parse('https://oauth2.googleapis.com/token'),
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: {
+      'client_id': 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
+      'client_secret': 'YOUR_CLIENT_SECRET',
+      'code': serverAuthCode,
+      'grant_type': 'authorization_code',
+      'redirect_uri': '', // или 'postmessage'
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    print('Tokens response: $data');
+    return data;
+  } else {
+    print('Failed token exchange: ${response.body}');
+    return null;
+  }
+}
