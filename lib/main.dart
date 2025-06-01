@@ -459,7 +459,7 @@ class _NewsBlockState extends State<NewsBlock> {
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 380,
+          height: 410, 
           child: Row(
             children: [
               if (showArrows)
@@ -467,19 +467,23 @@ class _NewsBlockState extends State<NewsBlock> {
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: _scrollLeft,
                 ),
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 20),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return SizedBox(
-                      width: 220,
-                      child: ProductCard(product: product),
-                    );
-                  },
+              Flexible(
+                fit: FlexFit.loose,
+                child: SizedBox(
+                  height: 410,  
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: products.length,
+                    separatorBuilder: (_, __) => SizedBox(width: 20),
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return SizedBox(
+                        width: 220,
+                        child: ProductCard(product: product),
+                      );
+                    },
+                  ),
                 ),
               ),
               if (showArrows)
@@ -490,6 +494,7 @@ class _NewsBlockState extends State<NewsBlock> {
             ],
           ),
         ),
+
       ],
     );
   }
