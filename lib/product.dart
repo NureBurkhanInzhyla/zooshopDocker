@@ -23,26 +23,16 @@ class ProductPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: SizedBox(
-                width: screenWidth * (1 - 0.18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HeaderBlock(),
-                    SizedBox(height: 15),
-                    Divider(),
-                    SizedBox(height: 50),
-                    ProductBlock(product: product),
-                    SizedBox(height: 100),
-                    DetailBlock(product: product),
-                    SizedBox(height: 125),
-                    RecomendationBlock(product: product),
-                    SizedBox(height: 70),
-                  ],
-                ),
-              ),
-            ),
+            HeaderBlock(),
+            SizedBox(height: 10),
+            Divider(),
+            SizedBox(height: 20),
+            ProductBlock(product: product),
+            SizedBox(height: 30),
+            DetailBlock(product: product),
+            SizedBox(height: 40),
+            RecomendationBlock(product: product),
+            SizedBox(height: 20),
             FooterBlock(),
           ],
         ),
@@ -58,72 +48,61 @@ class ProductBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Image.asset(
+              product.image,
+              width: 200,
+              height: 200,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  Icon(Icons.broken_image),
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            product.name,
+            style: TextStyle(
+              color: Color.fromARGB(255, 69, 50, 43),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text("Код товару: ${product.id}", style: TextStyle(fontSize: 14)),
+          SizedBox(height: 12),
+          Row(
             children: [
-              Image.asset(
-                product.image,
-                width: 370,
-                height: 370,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Icon(Icons.broken_image),
-              ),
-              SizedBox(width: 27),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 69, 50, 43),
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Text("Код товару: ${product.id}", style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text("Тип: ", style: TextStyle(fontSize: 16)),
-                        SizedBox(width: 5),
-                        Text(product.productCategory, style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("Категорія: ", style: TextStyle(fontSize: 16)),
-                        SizedBox(width: 5),
-                        Text(product.petCategory, style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              Text("Тип: ", style: TextStyle(fontSize: 14)),
+              SizedBox(width: 4),
+              Text(product.productCategory, style: TextStyle(fontSize: 14)),
             ],
           ),
-        ),
-
-        PriceCard(
-          newPrice: product.price.toString(),
-          oldPrice: product.discountPercent != null
-              ? (product.price / (1 - product.discountPercent! / 100)).round().toString()
-              : product.price.toString(),
-          product: product,
-        ),
-      ],
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Text("Категорія: ", style: TextStyle(fontSize: 14)),
+              SizedBox(width: 4),
+              Text(product.petCategory, style: TextStyle(fontSize: 14)),
+            ],
+          ),
+          SizedBox(height: 16),
+          PriceCard(
+            newPrice: product.price.toString(),
+            oldPrice: product.discountPercent != null
+                ? (product.price / (1 - product.discountPercent! / 100)).round().toString()
+                : product.price.toString(),
+            product: product,
+          ),
+        ],
+      ),
     );
-
   }
 }
-
 
 class PriceCard extends StatelessWidget {
   final String oldPrice;
@@ -140,8 +119,8 @@ class PriceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 264,
-      height: 200,
+      width: double.infinity,
+      height: 150,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
@@ -151,39 +130,31 @@ class PriceCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.only(left: 40),
-                child: Text(
-                  "$newPrice ₴",
-                  style: TextStyle(
-                    color: Color(0xFFF54949),
-                    fontSize: 28,
-                    fontWeight: FontWeight.w900,
-                  ),
+              Text(
+                "$newPrice ₴",
+                style: TextStyle(
+                  color: Color(0xFFF54949),
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.only(right: 40),
-                child: Text(
-                  "$oldPrice ₴",
-                  style: TextStyle(
-                    color: Color(0xFF848992),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    decoration: TextDecoration.lineThrough,
-                  ),
+              SizedBox(width: 16),
+              Text(
+                "$oldPrice ₴",
+                style: TextStyle(
+                  color: Color(0xFF848992),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  decoration: TextDecoration.lineThrough,
                 ),
               ),
             ],
           ),
-
           SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 27),
-            width: double.infinity,
-            height: 40,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton(
               onPressed: () async {
                     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -199,18 +170,17 @@ class PriceCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
+                minimumSize: Size(double.infinity, 36),
               ),
               child: Text(
                 "Купити",
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
           ),
-          SizedBox(height: 11),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            width: double.infinity,
-            height: 40,
+          SizedBox(height: 8),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: OutlinedButton(
               onPressed: () {
                 showDialog(
@@ -223,9 +193,9 @@ class PriceCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                foregroundColor: Color(0xFF95C74E),
+                minimumSize: Size(double.infinity, 36),
               ),
-              child: Text("Купити в один клік", style: TextStyle(fontSize: 15)),
+              child: Text("Купити в один клік", style: TextStyle(fontSize: 14, color: Color(0xFF95C74E))),
             ),
           ),
         ],
@@ -233,7 +203,6 @@ class PriceCard extends StatelessWidget {
     );
   }
 }
-
 
 class DetailBlock extends StatefulWidget {
   final ProductDTO product;
@@ -249,36 +218,31 @@ class _DetailBlockState extends State<DetailBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final descriptionText = widget.product.desc;
     final characteristicsText = "• Категорія: ${widget.product.petCategory}\n• Тип: ${widget.product.productCategory}";
 
-    return Center(
-      child: SizedBox(
-        width: screenWidth * 0.82,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                _buildTab("Опис", 0),
-                _buildTab("Характеристики", 1),
-              ],
-            ),
-            Divider(height: 1, color: Colors.grey),
-            SizedBox(height: 30),
-            SizedBox(
-              width: screenWidth * 0.82,
-              child: Text(
-                selectedIndex == 0 ? descriptionText : characteristicsText,
-                style: TextStyle(fontSize: 18, color: Colors.black87),
-              ),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _buildTab("Опис", 0),
+              _buildTab("Характеристики", 1),
+            ],
+          ),
+          Divider(height: 1, color: Colors.grey),
+          SizedBox(height: 16),
+          Text(
+            selectedIndex == 0 ? descriptionText : characteristicsText,
+            style: TextStyle(fontSize: 16, color: Colors.black87),
+          ),
+        ],
       ),
     );
   }
+
   Widget _buildTab(String text, int index) {
     final isSelected = selectedIndex == index;
 
@@ -289,12 +253,12 @@ class _DetailBlockState extends State<DetailBlock> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
               color: isSelected ? Colors.purpleAccent : Colors.transparent,
-              width: 3,
+              width: 2,
             ),
           ),
         ),
@@ -303,14 +267,13 @@ class _DetailBlockState extends State<DetailBlock> {
           style: TextStyle(
             color: isSelected ? Colors.purpleAccent : Colors.grey[700],
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            fontSize: 23,
+            fontSize: 18,
           ),
         ),
       ),
     );
   }
 }
-
 
 class RecomendationBlock extends StatefulWidget {
   final ProductDTO product;
@@ -326,7 +289,7 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
 
   void _scrollLeft() {
     _scrollController.animateTo(
-      _scrollController.offset - 240,
+      _scrollController.offset - 160,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
@@ -334,7 +297,7 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
 
   void _scrollRight() {
     _scrollController.animateTo(
-      _scrollController.offset + 240,
+      _scrollController.offset + 160,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
@@ -351,49 +314,52 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
 
         final products = snapshot.data!;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Схожі товари",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Схожі товари",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 30),
-            SizedBox(
-              height: 435,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
-                    onPressed: _scrollLeft,
-                  ),
-                  Expanded(
-                    child: ListView.separated(
-                      controller: _scrollController,
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: products.length,
-                      separatorBuilder: (_, __) => SizedBox(width: 20),
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        return SizedBox(
-                          width: 220,
-                          child: mainPage.ProductCard(product: product),
-                        );
-                      },
+              SizedBox(height: 16),
+              SizedBox(
+                height: 450,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios, size: 20),
+                      onPressed: _scrollLeft,
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
-                    onPressed: _scrollRight,
-                  ),
-                ],
+                    Expanded(
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: products.length,
+                        separatorBuilder: (_, __) => SizedBox(width: 12),
+                        itemBuilder: (context, index) {
+                          final product = products[index];
+                          return SizedBox(
+                            width: 250,
+                            child: mainPage.ProductCard(product: product),
+                          );
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward_ios, size: 20),
+                      onPressed: _scrollRight,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

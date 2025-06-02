@@ -8,10 +8,9 @@ import 'auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/cartProvider.dart';
 
-
 class CatalogPage extends StatefulWidget {
   final String? searchQuery;
-  final String? animalType; 
+  final String? animalType;
 
   const CatalogPage({Key? key, this.searchQuery, this.animalType}) : super(key: key);
 
@@ -21,7 +20,7 @@ class CatalogPage extends StatefulWidget {
 
 class _CatalogPageState extends State<CatalogPage> {
   int _currentPage = 0;
-  final int _productsPerPage = 16;
+  final int _productsPerPage = 12;
   List<ProductDTO> products = [];
   bool isLoading = true;
   List<String> petCategories = [];
@@ -59,7 +58,6 @@ class _CatalogPageState extends State<CatalogPage> {
     }
   }
 
-
   Future<void> _loadProducts() async {
     setState(() {
       isLoading = true;
@@ -94,7 +92,7 @@ class _CatalogPageState extends State<CatalogPage> {
         startPrice: startPrice,
         endPrice: endPrice,
         petCategory: widget.animalType,
-        productCategory: null, 
+        productCategory: null,
       );
 
       setState(() {
@@ -110,7 +108,6 @@ class _CatalogPageState extends State<CatalogPage> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,55 +127,39 @@ class _CatalogPageState extends State<CatalogPage> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  Center(
-                    child: SizedBox(
-                      width: screenWidth * 0.82,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HeaderBlock(),
-                          SizedBox(height: 55),
-                          Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
-                              _buildCatalogTitle(),
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 69, 48, 40),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 60),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child:_buildSettingsBlock(),),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 70), 
-                                  child: ProductsBlock(products: currentProducts),
-                                ),
-                              ),
-
-
-                            ],
-                          ),
-                          SizedBox(height: 24),
-                          _buildPagination(totalPages),
-                          SizedBox(height: 70),
-                        ],
+                  HeaderBlock(),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      _buildCatalogTitle(),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 69, 48, 40),
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: _buildSettingsBlock(),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: ProductsBlock(products: currentProducts),
+                  ),
+                  SizedBox(height: 20),
+                  _buildPagination(totalPages),
+                  SizedBox(height: 20),
                   FooterBlock(),
                 ],
               ),
             ),
     );
   }
+
   String _buildCatalogTitle() {
     if (widget.searchQuery != null && widget.searchQuery!.isNotEmpty) {
       return 'Результати пошуку для "${widget.searchQuery}"';
@@ -190,108 +171,124 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   Widget _buildSettingsBlock() {
-    return SizedBox(
-      width: 244,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Ціна", style: TextStyle(fontSize: 25)),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _startPriceController,
-                  decoration: InputDecoration(labelText: "Від"),
-                  keyboardType: TextInputType.number,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Ціна", style: TextStyle(fontSize: 18)),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _startPriceController,
+                decoration: InputDecoration(
+                  labelText: "Від",
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: _endPriceController,
-                  decoration: InputDecoration(labelText: "До"),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Center(child:ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 60),
-              backgroundColor: Color(0xFFC16AFF),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+                keyboardType: TextInputType.number,
               ),
             ),
-            onPressed: () {
-              setState(() {
-                startPrice = int.tryParse(_startPriceController.text);
-                endPrice = int.tryParse(_endPriceController.text);
-              });
-              _loadProducts();
-            },
-            child: Text("Накласти фільтр", style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),),
-          ),
-          ),
-          SizedBox(height: 7), 
-          Center(child:ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 72),
-              backgroundColor: Color.fromARGB(255, 221, 212, 228),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+            SizedBox(width: 10),
+            Expanded(
+              child: TextField(
+                controller: _endPriceController,
+                decoration: InputDecoration(
+                  labelText: "До",
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                ),
+                keyboardType: TextInputType.number,
               ),
             ),
-            onPressed: () {
-              setState(() {
-                startPrice = null;
-                endPrice = null;
-                _startPriceController.clear();
-                _endPriceController.clear();
-
-                productTypes.updateAll((key, value) => false);
-              });
-              _loadProducts();
-            },
-            child: Text("Зняти фільтр", style: TextStyle(
-                fontSize: 14,
-                color: const Color.fromARGB(255, 71, 71, 71),
-                fontWeight: FontWeight.w600,
-              ),),
-            ),),
-          SizedBox(height: 30),
-          Text("Тип", style: TextStyle(fontSize: 18)),
-          SizedBox(height: 20),
-          ...productTypes.keys.map((type) {
-            return CheckboxListTile(
-              title: Text(type, style: TextStyle(fontSize: 15),),
-              value: productTypes[type],
-              onChanged: (bool? val) {
+          ],
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                backgroundColor: Color(0xFFC16AFF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () {
                 setState(() {
-                  productTypes[type] = val ?? false;
+                  startPrice = int.tryParse(_startPriceController.text);
+                  endPrice = int.tryParse(_endPriceController.text);
                 });
                 _loadProducts();
               },
-              activeColor: Color(0xFFC16AFF),
-              controlAffinity: ListTileControlAffinity.leading,
-            );
-          }).toList(),
-        ],
-      ),
+              child: Text(
+                "Накласти фільтр",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                backgroundColor: Color.fromARGB(255, 221, 212, 228),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  startPrice = null;
+                  endPrice = null;
+                  _startPriceController.clear();
+                  _endPriceController.clear();
+                  productTypes.updateAll((key, value) => false);
+                });
+                _loadProducts();
+              },
+              child: Text(
+                "Зняти фільтр",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 71, 71, 71),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 20),
+        Text("Тип", style: TextStyle(fontSize: 16)),
+        SizedBox(height: 10),
+        ...productTypes.keys.map((type) {
+          return CheckboxListTile(
+            title: Text(type, style: TextStyle(fontSize: 14)),
+            value: productTypes[type],
+            onChanged: (bool? val) {
+              setState(() {
+                productTypes[type] = val ?? false;
+              });
+              _loadProducts();
+            },
+            activeColor: Color(0xFFC16AFF),
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+          );
+        }).toList(),
+      ],
     );
   }
+
   Widget _buildPagination(int totalPages) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: Icon(Icons.chevron_left, size: 24),
           onPressed: _currentPage > 0
               ? () {
                   setState(() {
@@ -309,24 +306,26 @@ class _CatalogPageState extends State<CatalogPage> {
               });
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 6),
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              margin: EdgeInsets.symmetric(horizontal: 4),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: isActive ? Color(0xFFC16AFF) : Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey.shade300),
               ),
               child: Text(
                 '${index + 1}',
                 style: TextStyle(
                   color: isActive ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
+                  fontSize: 14,
                 ),
               ),
             ),
           );
         }),
         IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: Icon(Icons.chevron_right, size: 24),
           onPressed: _currentPage < totalPages - 1
               ? () {
                   setState(() {
@@ -340,63 +339,45 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 }
 
-
 class PriceFromTag extends StatelessWidget {
   const PriceFromTag({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 2,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-        ), // Цвет рамки
-        borderRadius: BorderRadius.circular(
-          8,
-        ), // Закругленные углы
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        mainAxisSize:
-            MainAxisSize
-                .min, // Ограничивает ширину контейнера до размера содержимого
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'Від',
             style: TextStyle(
-              color: Colors.grey, // Цвет текста
-              fontSize: 14, // Размер шрифта
+              color: Colors.grey,
+              fontSize: 12,
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 6),
           Container(
-            width: 30, // Ширина поля ввода
+            width: 50,
             child: TextField(
-              keyboardType:
-                  TextInputType
-                      .number, // Ограничение для ввода чисел
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                border:
-                    InputBorder
-                        .none, // Без рамки внутри поля
-                hintText: '300', // Подсказка по умолчанию
+                border: InputBorder.none,
+                hintText: '300',
                 hintStyle: TextStyle(
-                  color:
-                      Colors.brown, // Цвет текста подсказки
-                  fontSize: 16, // Размер шрифта
-                  fontWeight:
-                      FontWeight.bold, // Жирный текст
+                  color: Colors.brown,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               style: TextStyle(
-                color:
-                    Colors
-                        .brown, // Цвет текста, который вводится
-                fontSize: 16, // Размер шрифта
-                fontWeight: FontWeight.bold, // Жирный текст
+                color: Colors.brown,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -412,56 +393,39 @@ class PriceToTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 2,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-        ), // Цвет рамки
-        borderRadius: BorderRadius.circular(
-          8,
-        ), // Закругленные углы
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        mainAxisSize:
-            MainAxisSize
-                .min, // Ограничивает ширину контейнера до размера содержимого
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'До',
             style: TextStyle(
-              color: Colors.grey, // Цвет текста
-              fontSize: 14, // Размер шрифта
+              color: Colors.grey,
+              fontSize: 12,
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 6),
           Container(
-            width: 30, // Ширина поля ввода
+            width: 50,
             child: TextField(
-              keyboardType:
-                  TextInputType
-                      .number, // Ограничение для ввода чисел
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                border:
-                    InputBorder
-                        .none, // Без рамки внутри поля
-                hintText: '800', // Подсказка по умолчанию
+                border: InputBorder.none,
+                hintText: '800',
                 hintStyle: TextStyle(
-                  color:
-                      Colors.brown, // Цвет текста подсказки
-                  fontSize: 16, // Размер шрифта
-                  fontWeight:
-                      FontWeight.bold, // Жирный текст
+                  color: Colors.brown,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               style: TextStyle(
-                color:
-                    Colors
-                        .brown, // Цвет текста, который вводится
-                fontSize: 16, // Размер шрифта
-                fontWeight: FontWeight.bold, // Жирный текст
+                color: Colors.brown,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -479,22 +443,25 @@ class ProductsBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty) {
-      return Center(child: Text('Не знайдено товарів'));
+      return Center(child: Text('Не знайдено товарів', style: TextStyle(fontSize: 16)));
     }
 
-    return Wrap(
-      spacing: 10,  
-      runSpacing: 25,    
-      children: products.map((product) {
-        return SizedBox(
-          width: 220, 
-          child: ProductCard(product: product),
-        );
-      }).toList(),
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.5,
+      ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return ProductCard(product: products[index]);
+      },
     );
   }
 }
-
 
 class ProductCard extends StatelessWidget {
   final ProductDTO product;
@@ -512,45 +479,35 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
-        constraints: BoxConstraints(
-          maxWidth: 220,
-          maxHeight: 480,
-        ),
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(
-            color: Colors.grey.shade300,
-            width: 0.5,
-          ),
+          border: Border.all(color: Colors.grey.shade300, width: 0.5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Изображение товара
             Container(
-              width: 190,
-              height: 190,
+              height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: Image.asset(
                   product.image,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported),
+                  errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported, size: 50),
                 ),
               ),
             ),
-            SizedBox(height: 10),
-      
+            SizedBox(height: 8),
             Text(
               product.name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 12,
               ),
               textAlign: TextAlign.center,
-              maxLines: 3,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
             if (product.desc.isNotEmpty) ...[
@@ -559,7 +516,7 @@ class ProductCard extends StatelessWidget {
                 product.desc,
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 10,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
@@ -567,46 +524,25 @@ class ProductCard extends StatelessWidget {
               ),
             ],
             Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 8),
-                  child: Text(
-                    '${product.price} ₴',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                // if (product.oldPrice != null) ...[
-                //   SizedBox(width: 8),
-                //   Text(
-                //     '${product.oldPrice} ₴',
-                //     style: TextStyle(
-                //       decoration: TextDecoration.lineThrough,
-                //       color: Colors.grey,
-                //       fontSize: 16,
-                //     ),
-                //   ),
-                // ]
-              ],
+            Text(
+              '${product.price} ₴',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
-              height: 40,
+              height: 32,
               child: ElevatedButton(
                 onPressed: () async {
                   final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                  if(authProvider.isLoggedIn){
-                      Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
-                  }
-                  else{
+                  if (authProvider.isLoggedIn) {
+                    Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
+                  } else {
                     showRegisterDialog(context);
                   }
-                 
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF95C74E),
@@ -616,11 +552,11 @@ class ProductCard extends StatelessWidget {
                 ),
                 child: Text(
                   'Купити',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 8),
             OneClickOrderText(),
           ],
         ),
@@ -628,4 +564,3 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-

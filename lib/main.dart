@@ -150,11 +150,11 @@ class PromoVetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(50),
-      height: 400,
+      padding: EdgeInsets.all(32),
+      height: 300,
       decoration: BoxDecoration(
         color: Color(0xFF95C74E),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Stack(
         clipBehavior: Clip.none,
@@ -162,38 +162,37 @@ class PromoVetCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-           
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Кошлатість сильно\nпідвищиться!',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 8),
                   Text(
                     'Знижка 20% на всі шампуні\nдля кошенят.',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 65),
+                  SizedBox(height: 32),
                   SizedBox(
-                    height: 50,
+                    height: 40,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CatalogPage(searchQuery: "Шампунь"),
-                        ),
-                      );
-                    },
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CatalogPage(searchQuery: "Шампунь"),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFC16AFF),
                         shape: RoundedRectangleBorder(
@@ -204,9 +203,9 @@ class PromoVetCard extends StatelessWidget {
                         children: [
                           Text(
                             'Дивитися шампуні',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 8),
                           Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
@@ -217,22 +216,9 @@ class PromoVetCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 450), 
             ],
           ),
-         
-          Positioned(
-            right: -50, 
-            top: -100,
-            child: SizedBox(
-              width: 450,
-              height: 450,
-              child: Image.asset(
-                'assets/images/cat.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          
         ],
       ),
     );
@@ -246,14 +232,14 @@ class PromoConsultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(50),
-      height: 400,
+      padding: EdgeInsets.all(20),
+      height: 300,
       decoration: BoxDecoration(
         color: Color(0xFFFF9955),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Stack(
-        clipBehavior: Clip.none, 
+        clipBehavior: Clip.none,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,39 +250,44 @@ class PromoConsultCard extends StatelessWidget {
                   Text(
                     'Ми готові оказати вам\nпідтримку в виборі',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 8),
                   Text(
                     'Безкоштовні консультації',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 75),
-
+                  SizedBox(height: 50),
                   SizedBox(
-                    height: 50,
+                    height: 40,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CatalogPage(searchQuery: "Шампунь"),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF95C74E),
+                        backgroundColor: Color(0xFFC16AFF),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Зв'язок з консультантом",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            'Зв`язок з консультантом',
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 8),
                           Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
@@ -307,19 +298,9 @@ class PromoConsultCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 150), 
             ],
           ),
-          Positioned(
-            right: -50,
-            top: -100,
-            width: 450,
-            height: 450,
-            child: Image.asset(
-              'assets/images/consultant.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          
         ],
       ),
     );
@@ -610,7 +591,7 @@ class ProductCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 5),
                   child: OneClickOrderText(),
                 ),
               ],
@@ -653,6 +634,7 @@ class BrandsBlock extends StatelessWidget {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Популярні бренди',
@@ -682,10 +664,6 @@ class BrandsBlock extends StatelessWidget {
                 MainAxisAlignment.spaceBetween,
             children: [
               _buildLogo('assets/images/royalcanin.png', true),
-              _buildLogo('assets/images/whiskas.png', true),
-              _buildLogo('assets/images/royalcanin.png', true),
-              _buildLogo('assets/images/whiskas.png', true),
-              _buildLogo('assets/images/royalcanin.png', true),
               _buildLogo('assets/images/whiskas.png', false),
             ],
           ),
@@ -699,8 +677,8 @@ class BrandsBlock extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 150,
-          height: 150,
+          width: 130,
+          height: 130,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
