@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zooshop/account_page.dart';
-import 'package:zooshop/adress_page.dart';
-import 'package:zooshop/change_password_page.dart';
-import 'package:zooshop/main.dart';
-import 'package:zooshop/orders_page.dart';
-import 'package:zooshop/subscription_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'header.dart';

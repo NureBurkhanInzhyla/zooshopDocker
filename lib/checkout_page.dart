@@ -11,6 +11,7 @@ import 'package:zooshop/models/Order.dart';
 import 'package:zooshop/models/Monobank.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zooshop/models/User.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -199,11 +200,18 @@ Widget build(BuildContext context) {
                   final user = authProvider.user;
 
                   if (user != null) {
+                    UserDTO updatedUser = user.copyWith(
+                      name: '${nameController.text} ${surnameController.text}'.trim(),
+                      email: emailController.text,
+                      address: addressController.text
+                    );
+
+                    authProvider.setUser(updatedUser);
+                    await updateUser(updatedUser);
+
                     if(selectedPayment == 'card')
                     {
                       try {
-                        //int orderId = await createOrder(user.id!);
-                        //await clearCart(user.id!);
 
                         final MonobankService _monobankService = MonobankService();
                         final url = await _monobankService.createInvoice(

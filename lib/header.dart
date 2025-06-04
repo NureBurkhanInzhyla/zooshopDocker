@@ -113,7 +113,7 @@ class MenuBottomNavigation extends StatelessWidget {
           spacing: 30.0,
           children: [
             Row(
-              spacing: 10,
+              spacing: 15,
               children: [
                 TextButton(
                   onPressed: () {
