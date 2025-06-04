@@ -10,8 +10,8 @@ import 'package:zooshop/models/Product.dart';
 import 'package:zooshop/product.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'catalog.dart';
+import 'package:zooshop/router.dart';
 import 'package:go_router/go_router.dart';
-
 
 void main() async{
   final authProvider = AuthProvider();
@@ -43,14 +43,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Zooshop',
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
-      home: MainPage(),
+      routerConfig: router,
     );
   }
 }
