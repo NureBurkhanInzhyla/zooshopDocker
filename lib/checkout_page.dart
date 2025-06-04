@@ -210,6 +210,8 @@ Widget build(BuildContext context) {
                       }
                     }
                   } else {
+                    await createOrder(user!.id!);
+                    await clearCart(user.id!);
                     showOrderConfirmationDialog(context);
                   }
                 } : null,
