@@ -220,7 +220,7 @@ class _CartPageState extends State<CartPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${item.price.toStringAsFixed(0)} ₴',
+                  '${item.price * cartItem.count} ₴',
                   style: GoogleFonts.montserrat(
                       fontSize: 25,
                       fontWeight: FontWeight.w800,

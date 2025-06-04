@@ -19,7 +19,10 @@ void main() async{
   GoRouter.optionURLReflectsImperativeAPIs = true;
   setUrlStrategy(PathUrlStrategy());
   final authProvider = AuthProvider();
-  await authProvider.loadUserFromSession();
+  final sessionUser = authProvider.loadUserFromSession();
+  if (sessionUser != null) {
+    authProvider.login(user: sessionUser);
+  }
 
   runApp(
     MultiProvider(
