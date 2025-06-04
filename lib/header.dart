@@ -545,7 +545,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
                 if (user != null) {
                   Provider.of<AuthProvider>(context, listen: false).login(user: user);
-                  Navigator.of(context).pop();
+                  context.pop();
                 }
 
             },

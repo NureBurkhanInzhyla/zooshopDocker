@@ -16,6 +16,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   setUrlStrategy(PathUrlStrategy());
   final authProvider = AuthProvider();
   await authProvider.loadUserFromSession();

@@ -198,7 +198,7 @@ class _OrdersPageState extends State<OrdersPage> {
               right: 8,
               child: IconButton(
                 icon: Icon(Icons.close, size: 28),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 ),
               ),
             ],
@@ -418,7 +418,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     width: 143,
                     height: 40,
                     child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Color(0xFF67AF45)),
                       shape: RoundedRectangleBorder(
@@ -438,7 +438,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     height: 40,
                       child: ElevatedButton(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        context.pop();
 
                         final cartProvider = Provider.of<CartProvider>(context, listen: false);
                         final orderItems = orders.where((o) => o.orderId == order.orderId);
