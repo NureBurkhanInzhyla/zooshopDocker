@@ -22,7 +22,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => MainPage(),
     ),
     GoRoute(
-      path: '/profile',
+      path: '/account',
       builder: (context, state) => AccountPage(),
     ),
     GoRoute(
