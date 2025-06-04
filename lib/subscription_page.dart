@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:zooshop/models/Subscription.dart';
 import 'auth_service.dart';
 import 'package:intl/intl.dart';
-
+import 'package:go_router/go_router.dart';
 
 class SubscriptionPage extends StatefulWidget {
   @override
@@ -363,7 +363,7 @@ void showSubscriptionDetails(BuildContext context, SubscriptionDTO subscription)
             actionsAlignment: MainAxisAlignment.center,
             actions: [
               OutlinedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFFC16AFF),
                   side: BorderSide(color: Color(0xFFC16AFF)),
@@ -385,7 +385,7 @@ void showSubscriptionDetails(BuildContext context, SubscriptionDTO subscription)
                     print('Помилка оновлення: $e');
                   }
                   
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFC16AFF),
@@ -447,7 +447,7 @@ void _confirmDelete(SubscriptionDTO subscription) {
                         width: 168,
                         height: 40,
                         child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.pop(),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Color(0xFF67AF45),
                             side: BorderSide(color: Color(0xFF67AF45)),
@@ -478,7 +478,7 @@ void _confirmDelete(SubscriptionDTO subscription) {
                             } catch (e) {
                               print('Помилка видалення: $e');
                             }
-                            Navigator.pop(context);
+                            context.pop();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFFF74E4E),
@@ -505,7 +505,7 @@ void _confirmDelete(SubscriptionDTO subscription) {
               right: 8,
               child: IconButton(
                 icon: Icon(Icons.close, size: 28),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 ),
               ),
             ],
@@ -516,56 +516,3 @@ void _confirmDelete(SubscriptionDTO subscription) {
   }
 
 }
-
-// class Product {
-//   final int id;
-//   final String name;
-//   final double price;
-//   final Image image;
-
-//   Product({
-//     required this.id,
-//     required this.name,
-//     required this.price,
-//     required this.image
-//   });
-// }
-
-// class Subscription {
-//   final Product product;
-//   final int periodInDays;
-//   final DateTime startDate;
-//   bool cancelled;
-
-//   Subscription({
-//     required this.product,
-//     this.periodInDays = 30,
-//     DateTime? startDate,
-//     this.cancelled = false
-//   }) : startDate = startDate ?? DateTime.now();
-
-//   DateTime get nextDeliveryDate => startDate.add(Duration(days: periodInDays));
-// }
-
-// class SubscriptionProvider extends ChangeNotifier {
-//   final List<Subscription> _subscriptions = [];
-
-//   List<Subscription> get subscriptions => List.unmodifiable(_subscriptions);
-
-//   void addSubscription(Subscription sub) {
-//     _subscriptions.add(sub);
-//     notifyListeners();
-//   }
-
-//   void removeSubscription(Subscription sub) {
-//     _subscriptions.remove(sub);
-//     notifyListeners();
-//   }
-
-//   void loadFromDatabase(List<Subscription> loaded) {
-//     _subscriptions.clear();
-//     _subscriptions.addAll(loaded);
-//     notifyListeners();
-//   }
-// }
-

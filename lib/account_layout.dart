@@ -11,7 +11,7 @@ import 'header.dart';
 import 'footer.dart';
 import 'auth_service.dart';
 import 'package:zooshop/models/Order.dart';
-
+import 'package:go_router/go_router.dart';
 
 class AccountLayout extends StatefulWidget {
   final Widget child;
@@ -97,12 +97,12 @@ class _AccountLayoutState extends State<AccountLayout> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _menuItem(context, 'Обліковий запис', page: AccountPage(), isActive: widget.activeMenu == 'Обліковий запис'),
-                              _menuItem(context, 'Адреса доставки', page: AddressPage(), isActive: widget.activeMenu == 'Адреса доставки'),
-                              _menuItem(context, 'Історія замовлень', page: OrdersPage(), isActive: widget.activeMenu == 'Історія замовлень', ordersAmount: ordersAmount),
-                              _menuItem(context, 'Підписки', page: SubscriptionPage(), isActive: widget.activeMenu == 'Підписки'),
-                              _menuItem(context, 'Змінити пароль', page: ChangePasswordPage(), isActive: widget.activeMenu == 'Змінити пароль'),
-                              _menuItem(context, 'Вийти', page: MainPage(), isActive: widget.activeMenu == 'Вийти'),
+                              _menuItem(context, 'Обліковий запис', page: "account", isActive: widget.activeMenu == 'Обліковий запис'),
+                              _menuItem(context, 'Адреса доставки', page: "address", isActive: widget.activeMenu == 'Адреса доставки'),
+                              _menuItem(context, 'Історія замовлень', page: "orders", isActive: widget.activeMenu == 'Історія замовлень', ordersAmount: ordersAmount),
+                              _menuItem(context, 'Підписки', page: "subscriptions", isActive: widget.activeMenu == 'Підписки'),
+                              _menuItem(context, 'Змінити пароль', page: "change_password", isActive: widget.activeMenu == 'Змінити пароль'),
+                              _menuItem(context, 'Вийти', page: "", isActive: widget.activeMenu == 'Вийти'),
                             ],
                           ),
                         ),
@@ -117,7 +117,7 @@ class _AccountLayoutState extends State<AccountLayout> {
                             ),
                           )
                         else
-                          SizedBox(width: screenWidth * 0.24, child: widget.child), // ✅
+                          SizedBox(width: screenWidth * 0.24, child: widget.child), 
                       ],
                     ),
                     SizedBox(height: 77),
@@ -133,7 +133,7 @@ class _AccountLayoutState extends State<AccountLayout> {
   }
 
 
-  Widget _menuItem( BuildContext context, String title, { Widget? page, bool isActive = false, int ordersAmount = 0,}) {
+Widget _menuItem( BuildContext context, String title, {required String page, bool isActive = false,int ordersAmount = 0,}) {
     bool isOrders = title == 'Історія замовлень';
 
     return MouseRegion(
@@ -143,10 +143,10 @@ class _AccountLayoutState extends State<AccountLayout> {
           if(title == 'Вийти'){
                Provider.of<AuthProvider>(context, listen: false).logout();
           }
-          if (page != null && !isActive) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => page));
+          if (!isActive) {
+            context.go(page.isEmpty ? '/' : '/$page');
           }
+
         },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12),

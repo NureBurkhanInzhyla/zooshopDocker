@@ -10,15 +10,17 @@ import 'package:zooshop/models/Product.dart';
 import 'package:zooshop/product.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'catalog.dart';
+import 'package:go_router/go_router.dart';
+
 
 void main() async{
-  
+  final authProvider = AuthProvider();
+  await authProvider.loadUserFromSession();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>( 
-          create: (_) => AuthProvider(),
-        ),
+        ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
         ChangeNotifierProxyProvider<AuthProvider, CartProvider>(
           create: (_) => CartProvider(),
           update: (_, authProvider, cartProvider) {
@@ -187,12 +189,7 @@ class PromoVetCard extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CatalogPage(searchQuery: "Шампунь"),
-                        ),
-                      );
+                        context.push('/catalog?search=Шампунь');
                     },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFC16AFF),
@@ -505,14 +502,9 @@ class ProductCard extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ProductPage(product: product),
-            ),
-          );
-        },
+      onTap: () {
+        context.push('/product/${product.id}');
+      },
       child: Container(
         width: 200,
         padding: EdgeInsets.all(16),
@@ -761,6 +753,7 @@ class OneClickOrderDialog extends StatefulWidget {
 class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
+  final RegExp phoneRegExp = RegExp(r'^\+?380\d{9}$');
 
  @override
   Widget build(BuildContext context) {
@@ -807,8 +800,19 @@ class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
                   onPressed: () {
                     final name = _nameController.text;
                     final phone = _phoneController.text;
+
+                    if (!phoneRegExp.hasMatch(phone)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Введіть правильний номер телефону у форматі +380XXXXXXXXX'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                    
                     print('Надіслано: $name, $phone');
-                    Navigator.pop(context);
+                    context.pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF95C74E),
@@ -831,7 +835,7 @@ class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
             right: 0,
             child: IconButton(
               icon: Icon(Icons.close),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
             ),
           ),
         ],

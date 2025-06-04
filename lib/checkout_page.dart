@@ -10,6 +10,7 @@ import 'package:zooshop/models/Cart.dart';
 import 'package:zooshop/models/Order.dart';
 import 'package:zooshop/models/Monobank.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -27,7 +28,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final commentController = TextEditingController();
   final addressController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
 
+    nameController.addListener(_onFormChanged);
+    surnameController.addListener(_onFormChanged);
+    emailController.addListener(_onFormChanged);
+    addressController.addListener(_onFormChanged);
+  }
+
+  void _onFormChanged() {
+    setState(() {});
+  }
 
   @override
   void didChangeDependencies() {
@@ -35,6 +48,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final user = authProvider.user;
+
     if (user != null) {
       final parts = user.name.split(' ');
       nameController.text = parts.isNotEmpty ? parts[0] : '';
@@ -43,8 +57,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
       if (user.address != null) {
         addressController.text = user.address!;
       }
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {});
+      });
     }
   }
+
 
   @override
   void dispose() {
@@ -95,7 +114,7 @@ Widget build(BuildContext context) {
                     _buildInput('Прізвище', controller: surnameController),
                     _buildInput('Email', controller: emailController),
                     SizedBox(height: 30),
-                    _buildInput('Адреса доставки', controller: addressController),
+                    _buildInput('Адреса доставки', controller: addressController, isAddress: true),
 
                     SizedBox(height: 30),
                     _sectionTitle('Коментар до замовлення'),
@@ -188,8 +207,8 @@ Widget build(BuildContext context) {
 
                         final MonobankService _monobankService = MonobankService();
                         final url = await _monobankService.createInvoice(
-                          amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 100, // 42.00 UAH
-                          currency: 980, // UAH (передаем как int, а не строку)
+                          amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 100,
+                          currency: 980, 
                           description: 'Test payment',
                           redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
                           webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
@@ -198,22 +217,22 @@ Widget build(BuildContext context) {
                         final Uri _url = Uri.parse(url);
                         await launchUrl(_url);
                         Provider.of<CartProvider>(context, listen: false).clear();
-                        Navigator.of(context).pop(); 
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => MainPage()),
-                          (route) => false,
-                        );
+                        context.pop(); 
+                        context.go('/');
+
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Помилка при створенні замовлення')),
                         );
                       }
                     }
-                  } else {
-                    await createOrder(user!.id!);
-                    await clearCart(user.id!);
-                    showOrderConfirmationDialog(context);
-                  }
+                    else {
+                      await createOrder(user!.id!);
+                      await clearCart(user.id!);
+                      Provider.of<CartProvider>(context, listen: false).clear();
+                      showOrderConfirmationDialog(context);
+                    }
+                  } 
                 } : null,
 
                 style: ElevatedButton.styleFrom(
@@ -241,11 +260,20 @@ Widget build(BuildContext context) {
   );
 }
 
+  bool isValidAddress(String address) {
+    final trimmed = address.trim();
+
+    final regex = RegExp(r'^[А-Яа-яҐґЄєІіЇїA-Za-z\s]+\s+\d+[A-Za-zА-Яа-я0-9\-\/]*,\s*[А-Яа-яҐґЄєІіЇїA-Za-z\s\-]+$');
+
+    return regex.hasMatch(trimmed);
+  }
+
+
   bool get isFormValid {
     return nameController.text.trim().isNotEmpty &&
         surnameController.text.trim().isNotEmpty &&
         emailController.text.trim().isNotEmpty &&
-        addressController.text.trim().isNotEmpty &&
+        isValidAddress(addressController.text) &&
         agreedToTerms;
   }
 
@@ -256,18 +284,27 @@ Widget build(BuildContext context) {
     );
   }
 
-  Widget _buildInput(String label, {required TextEditingController controller}) {
+  Widget _buildInput(String label, {
+    required TextEditingController controller,
+    bool isAddress = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 12),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
+          hintText: isAddress ? 'вул. Хрещатик 22, Київ' : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+          errorText: isAddress && controller.text.isNotEmpty && !isValidAddress(controller.text)
+              ? 'Введіть повну адресу з номером будинку та містом'
+              : null,
         ),
       ),
     );
   }
+
+
 
   Widget _buildCommentField() {
     return TextField(
@@ -340,11 +377,8 @@ Widget build(BuildContext context) {
               right: 12,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pop(); 
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => MainPage()),
-                    (route) => false,
-                  );
+                  context.pop(); 
+                  context.go('/');
                 },
                 child: CircleAvatar(
                   radius: 14,

@@ -7,7 +7,7 @@ class MonobankService {
 
   Future<String> createInvoice({
     required int amount,
-    required int currency, // Изменено на int
+    required int currency, 
     required String description,
     String? redirectUrl,
     String? webhookUrl,
@@ -20,19 +20,19 @@ class MonobankService {
     };
 
     final body = jsonEncode({
-      'amount': amount, // Сумма в копейках (например, 4200 = 42 UAH)
-      'ccy': currency, // Код валюты (980 для UAH, передается как int)
-      'description': description, // Описание платежа
-      if (redirectUrl != null) 'redirectUrl': redirectUrl, // URL для редиректа после оплаты
-      if (webhookUrl != null) 'webHookUrl': webhookUrl, // URL для уведомлений
-      if (reference != null) 'merchantPaymInfo': {'reference': reference}, // URL для уведомлений
+      'amount': amount, 
+      'ccy': currency, 
+      'description': description, 
+      if (redirectUrl != null) 'redirectUrl': redirectUrl, 
+      if (webhookUrl != null) 'webHookUrl': webhookUrl, 
+      if (reference != null) 'merchantPaymInfo': {'reference': reference}, 
     });
 
     final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return data['pageUrl']; // Возвращаем ссылку на оплату
+      return data['pageUrl']; 
     } else {
       throw Exception('Failed to create invoice: ${response.body}');
     }

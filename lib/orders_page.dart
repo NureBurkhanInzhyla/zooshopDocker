@@ -6,6 +6,7 @@ import 'auth_service.dart';
 import 'package:zooshop/models/Order.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'cart_page.dart';
+import 'package:go_router/go_router.dart';
 
 class OrdersPage extends StatefulWidget {
   @override
@@ -146,7 +147,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         width: 168,
                         height: 40,
                         child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.pop(),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Color(0xFF67AF45),
                             side: BorderSide(color: Color(0xFF67AF45)),
@@ -169,7 +170,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             await updateOrderState(orderId, 'Скасовано');
-                            Navigator.pop(context);
+                            context.pop();
                             await _refreshOrders();
                           },
                           style: ElevatedButton.styleFrom(
@@ -452,7 +453,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           SnackBar(content: Text('Товари додано до кошика')),
                         );
 
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => CartPage()));
+                        context.push('/cart');
                       },
 
                       style: ElevatedButton.styleFrom(
@@ -494,22 +495,3 @@ class Order {
     this.sum = 3651,
   }) : name = name ?? "Замовлення від ${DateTime.now().toIso8601String().split('T')[0]}";
 }
-
-// class OrdersProvider with ChangeNotifier {
-//   List<Order> _orders = [];
-
-//   List<Order> get orders => _orders;
-
-//   int get processingCount =>
-//       _orders.where((o) => o.state == 'В обробці').length;
-
-//   void setOrders(List<Order> orders) {
-//     _orders = orders;
-//     notifyListeners();
-//   }
-
-//   void cancelOrder(int index) {
-//     _orders[index].state = 'Скасовано';
-//     notifyListeners();
-//   }
-// }

@@ -27,13 +27,12 @@ Future<List<OrderDTO>> fetchOrdersByOrderId(int userId) async {
   final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Order/$userId'));
 
   if (response.statusCode == 200) {
-    // Если запрос успешный, парсим JSON
     List<dynamic> orderData = json.decode(response.body);
 
-    // Для каждого товара из корзины получаем подробности о продукте
+    
     List<OrderDTO> orders = [];
     for (var orderItem in orderData) {
-      // Для каждого Cart получаем Product по ProductId
+
       var product = await fetchProductById(orderItem['productId']);
       orders.add(OrderDTO(
         id: orderItem['id'],
@@ -56,13 +55,13 @@ Future<List<OrderDTO>> fetchOrdersByUserId(int userId) async {
   final response = await http.get(Uri.parse('https://zooshop-dnu7.onrender.com/api/Order/user$userId'));
 
   if (response.statusCode == 200) {
-    // Если запрос успешный, парсим JSON
+    
     List<dynamic> orderData = json.decode(response.body);
 
-    // Для каждого товара из корзины получаем подробности о продукте
+    
     List<OrderDTO> orders = [];
     for (var orderItem in orderData) {
-      // Для каждого Cart получаем Product по ProductId
+      
       var product = await fetchProductById(orderItem['productId']);
       orders.add(OrderDTO(
         id: orderItem['id'],
@@ -109,7 +108,7 @@ Future<void> updateOrderState(int orderId, String state) async {
   final response = await http.put(
     url,
     headers: {
-      'Content-Type': 'application/json', // Указываем тип данных, которые отправляем
+      'Content-Type': 'application/json', 
     },
     body: json.encode({
       'orderId': orderId,

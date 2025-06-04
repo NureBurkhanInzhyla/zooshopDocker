@@ -7,7 +7,7 @@ import 'models/Product.dart';
 import 'auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/cartProvider.dart';
-
+import 'package:go_router/go_router.dart';
 
 class CatalogPage extends StatefulWidget {
   final String? searchQuery;
@@ -354,49 +354,49 @@ class PriceFromTag extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
-        ), // Цвет рамки
+        ), 
         borderRadius: BorderRadius.circular(
           8,
-        ), // Закругленные углы
+        ),
       ),
       child: Row(
         mainAxisSize:
             MainAxisSize
-                .min, // Ограничивает ширину контейнера до размера содержимого
+                .min,
         children: [
           Text(
             'Від',
             style: TextStyle(
-              color: Colors.grey, // Цвет текста
-              fontSize: 14, // Размер шрифта
+              color: Colors.grey, 
+              fontSize: 14,
             ),
           ),
           SizedBox(width: 8),
           Container(
-            width: 30, // Ширина поля ввода
+            width: 30, 
             child: TextField(
               keyboardType:
                   TextInputType
-                      .number, // Ограничение для ввода чисел
+                      .number, 
               decoration: InputDecoration(
                 border:
                     InputBorder
-                        .none, // Без рамки внутри поля
-                hintText: '300', // Подсказка по умолчанию
+                        .none, 
+                hintText: '300', 
                 hintStyle: TextStyle(
                   color:
-                      Colors.brown, // Цвет текста подсказки
-                  fontSize: 16, // Размер шрифта
+                      Colors.brown,
+                  fontSize: 16, 
                   fontWeight:
-                      FontWeight.bold, // Жирный текст
+                      FontWeight.bold, 
                 ),
               ),
               style: TextStyle(
                 color:
                     Colors
-                        .brown, // Цвет текста, который вводится
-                fontSize: 16, // Размер шрифта
-                fontWeight: FontWeight.bold, // Жирный текст
+                        .brown, 
+                fontSize: 16, 
+                fontWeight: FontWeight.bold, 
               ),
             ),
           ),
@@ -419,49 +419,49 @@ class PriceToTag extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
-        ), // Цвет рамки
+        ), 
         borderRadius: BorderRadius.circular(
           8,
-        ), // Закругленные углы
+        ), 
       ),
       child: Row(
         mainAxisSize:
             MainAxisSize
-                .min, // Ограничивает ширину контейнера до размера содержимого
+                .min, 
         children: [
           Text(
             'До',
             style: TextStyle(
-              color: Colors.grey, // Цвет текста
-              fontSize: 14, // Размер шрифта
+              color: Colors.grey, 
+              fontSize: 14,
             ),
           ),
           SizedBox(width: 8),
           Container(
-            width: 30, // Ширина поля ввода
+            width: 30,
             child: TextField(
               keyboardType:
                   TextInputType
-                      .number, // Ограничение для ввода чисел
+                      .number,
               decoration: InputDecoration(
                 border:
                     InputBorder
-                        .none, // Без рамки внутри поля
-                hintText: '800', // Подсказка по умолчанию
+                        .none, 
+                hintText: '800', 
                 hintStyle: TextStyle(
                   color:
-                      Colors.brown, // Цвет текста подсказки
-                  fontSize: 16, // Размер шрифта
+                      Colors.brown, 
+                  fontSize: 16, 
                   fontWeight:
-                      FontWeight.bold, // Жирный текст
+                      FontWeight.bold, 
                 ),
               ),
               style: TextStyle(
                 color:
                     Colors
-                        .brown, // Цвет текста, который вводится
-                fontSize: 16, // Размер шрифта
-                fontWeight: FontWeight.bold, // Жирный текст
+                        .brown,
+                fontSize: 16,
+                fontWeight: FontWeight.bold, 
               ),
             ),
           ),
@@ -506,10 +506,8 @@ class ProductCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProductPage(product: product)),
-        );
+        context.push('/product/${product.id}');
+
       },
       child: Container(
         constraints: BoxConstraints(

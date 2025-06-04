@@ -6,6 +6,7 @@ import 'package:zooshop/models/User.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:universal_html/html.dart' as html;
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -42,7 +43,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
   } catch (error, stackTrace) {
     print('Error Google-sign in: $error');
-    print('Stack trace: $stackTrace');
   }
 
 }
@@ -58,6 +58,7 @@ class AuthProvider extends ChangeNotifier {
 void login({required UserDTO user}) {
   _isLoggedIn = true;
   _user = user;
+  saveUserToSession(user);
   notifyListeners();
 }
 
@@ -68,30 +69,23 @@ void login({required UserDTO user}) {
   }
   void setUser(UserDTO user) {
     _user = user;
+    clearUserSession();
     notifyListeners();
   }
-}
 
-Future<Map<String, dynamic>?> exchangeServerAuthCodeForTokens(
-    String serverAuthCode) async {
-  final response = await http.post(
-    Uri.parse('https://oauth2.googleapis.com/token'),
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: {
-      'client_id': 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
-      'client_secret': 'YOUR_CLIENT_SECRET',
-      'code': serverAuthCode,
-      'grant_type': 'authorization_code',
-      'redirect_uri': '', // или 'postmessage'
-    },
-  );
+  void saveUserToSession(UserDTO user) {
+    final jsonString = jsonEncode(user.toJson());
+    html.window.sessionStorage['user'] = jsonString;
+  }
 
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    print('Tokens response: $data');
-    return data;
-  } else {
-    print('Failed token exchange: ${response.body}');
-    return null;
+  UserDTO? loadUserFromSession() {
+    final jsonString = html.window.sessionStorage['user'];
+    if (jsonString == null) return null;
+    return UserDTO.fromJson(jsonDecode(jsonString));
+  }
+
+  void clearUserSession() {
+    html.window.sessionStorage.remove('user');
   }
 }
+

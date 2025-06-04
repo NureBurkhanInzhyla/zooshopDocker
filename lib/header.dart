@@ -6,6 +6,7 @@ import 'main.dart';
 import 'package:provider/provider.dart';
 import 'package:zooshop/models/User.dart';
 import 'cart_page.dart';
+import 'package:go_router/go_router.dart';
 
 class HeaderBlock extends StatelessWidget {
   const HeaderBlock({super.key});
@@ -26,12 +27,7 @@ class HeaderBlock extends StatelessWidget {
                       height: 158,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MainPage(),
-                            ),
-                          );
+                          context.go('/');
                         },
                         child: Image.asset('assets/images/logo.png'),
                       ),
@@ -50,15 +46,8 @@ class HeaderBlock extends StatelessWidget {
                                   flex: 3, 
                                   child: SearchBar(
                                   onSearch: (query) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CatalogPage(
-                                        searchQuery: query,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                    context.push('/catalog?searchQuery=$query');
+                                  },
                                 ),
                               ),
                               SizedBox(width: 20),
@@ -128,90 +117,56 @@ class MenuBottomNavigation extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(),
-                      ),
-                    );
+                   context.push('/catalog');
+
                   },
                   child: Text("Усі товари", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Кішки"),
-                      ),
-                    );
+                    context.push('/catalog?animalType=Кішки');
+
                   },
                   child: Text("Кішки", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Собаки"),
-                      ),
-                    );
+                    context.push('/catalog?animalType=Собаки');
+
                   },
                   child: Text("Собаки", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Гризуни"),
-                      ),
-                    );
+                    context.push('/catalog?animalType=Гризуни');
+
                   },
                   child: Text("Гризуни", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Птахи"),
-                      ),
-                    );
+                 onPressed: () {
+                    context.push('/catalog?animalType=Птахи');
+
                   },
                   child: Text("Птахи", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Риби"),
-                      ),
-                    );
+                    context.push('/catalog?animalType=Риби');
+
                   },
                   child: Text("Риби", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CatalogPage(animalType: "Рептилії"),
-                      ),
-                    );
+                    context.push('/catalog?animalType=Рептилії');
+
                   },
                   child: Text("Рептилії", style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
-            Row(
-              spacing: 5,
-              children: [
-                Text("Акції"),
-                Icon(Icons.percent, color: Color(0xFF95C74E)),
-              ],
-            ),
+           
           ],
         ),
       ],
@@ -271,12 +226,8 @@ class UserProfileButton extends StatelessWidget {
           height: 60,
           child: ElevatedButton.icon(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AccountPage(),
-                ),
-              );
+              context.push('/account');
+
             },
             icon: Icon(Icons.person, color: Color(0xFF95C74E)),
             label: Text(
@@ -300,12 +251,8 @@ class UserProfileButton extends StatelessWidget {
           height: 60,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CartPage(),
-                ),
-              );
+              context.push('/cart');
+
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
@@ -431,7 +378,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
         Provider.of<AuthProvider>(context, listen: false).login(user: savedUser);
 
-        Navigator.of(context).pop();
+        context.pop();
       } catch (e) {
         setState(() {
           _error = 'Помилка при реєстрації'; 
@@ -471,7 +418,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
       if (_isLoginMode) {
         UserDTO loggedUser = await fetchUserByUserEmail(email, password);
         Provider.of<AuthProvider>(context, listen: false).login(user: loggedUser);
-        Navigator.of(context).pop();
+        context.pop();
 
       } else {
         _register();

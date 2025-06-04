@@ -10,6 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:zooshop/checkout_page.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'package:intl/intl.dart';
+import 'package:zooshop/models/Monobank.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -209,26 +212,6 @@ class _CartPageState extends State<CartPage> {
                     ],
                   ),
 
-                  // Комментируем блок с available
-                  /*
-                  if (!item.available)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.error_outline,
-                              size: 20, color: Colors.grey),
-                          SizedBox(width: 4),
-                          Text(
-                            'Немає в наявності',
-                            style: TextStyle(
-                                color: Colors.grey[600], fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                  */
-
                 ],
               ),
             ),
@@ -243,15 +226,7 @@ class _CartPageState extends State<CartPage> {
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF333333)),
                 ),
-                // if (item.oldPrice != null)
-                //   Text(
-                //     '${item.oldPrice!.toStringAsFixed(0)} ₴',
-                //     style: TextStyle(
-                //       fontSize: 16,
-                //       color: Colors.grey,
-                //       decoration: TextDecoration.lineThrough,
-                //     ),
-                //   ),
+             
               ],
             ),
           ],
@@ -289,10 +264,8 @@ Widget _buildSummaryBlock(BuildContext context, int totalCost) {
             ),
           ),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CheckoutPage()),
-            );
+           context.push('/checkout');
+
           },
           child: Center(
             child: Text(
@@ -415,7 +388,7 @@ void makeSubscription(BuildContext context, ProductDTO product) {
             actionsAlignment: MainAxisAlignment.center,
             actions: [
               OutlinedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFFC16AFF),
                   side: BorderSide(color: Color(0xFFC16AFF)),
@@ -438,12 +411,38 @@ void makeSubscription(BuildContext context, ProductDTO product) {
                     startDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
 
                   );
+                try {
+                    final MonobankService monobankService = MonobankService();
 
-                  await createSubscription(subscription);
+                    final url = await monobankService.createInvoice(
+                      amount: product.price * 100, 
+                      currency: 980, 
+                      description: 'Підписка на ${product.name}',
+                      redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
+                      webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
+                      reference: '${user.id}-${product.id}',
+                    );
+
+                    final Uri _url = Uri.parse(url);
+                    await launchUrl(_url);
+
+                    await createSubscription(subscription);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Підписка створена')),
+                    );
+                     ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Підписка оформлена та знаходиться в розділі підписок!')),
+                    );
+                    context.pop();
+
+                }
+                catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Підписка створена')),
+                    SnackBar(content: Text('Не вдалося оформити оплату: $e')),
                   );
-                  Navigator.pop(context);
+                }
+                
+                 
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFC16AFF),

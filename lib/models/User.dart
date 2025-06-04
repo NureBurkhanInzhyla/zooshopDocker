@@ -21,6 +21,17 @@ class UserDTO {
       'address': address,
     };
   }
+  factory UserDTO.fromJson(Map<String, dynamic> json) {
+    return UserDTO(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      googleId: json['googleId'],
+      address: json['address'],
+    );
+  }
+  
   UserDTO copyWith({
     int? id,
     String? name,
@@ -112,9 +123,9 @@ Future<void> updateUser(UserDTO user) async {
   final response = await http.put(
     url,
     headers: {
-      'Content-Type': 'application/json', // Указываем тип данных, которые отправляем
+      'Content-Type': 'application/json', 
     },
-    body: json.encode(user.toJson()), // Преобразуем объект UserDTO в JSON
+    body: json.encode(user.toJson()), 
   );
 
   print(user.toJson());
