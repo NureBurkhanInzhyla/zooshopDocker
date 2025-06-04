@@ -198,11 +198,11 @@ Widget build(BuildContext context) {
                         final Uri _url = Uri.parse(url);
                         await launchUrl(_url);
                         //Provider.of<CartProvider>(context, listen: false).clear();
-                        Navigator.of(context).pop(); 
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => MainPage()),
-                          (route) => false,
-                        );
+                        // Navigator.of(context).pop(); 
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //   MaterialPageRoute(builder: (_) => MainPage()),
+                        //   (route) => false,
+                        // );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Помилка при створенні замовлення')),
