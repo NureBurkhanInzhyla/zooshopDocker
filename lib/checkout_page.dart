@@ -262,9 +262,7 @@ Widget build(BuildContext context) {
 
   bool isValidAddress(String address) {
     final trimmed = address.trim();
-
-    final regex = RegExp(r'^[А-Яа-яҐґЄєІіЇїA-Za-z\s]+\s+\d+[A-Za-zА-Яа-я0-9\-\/]*,\s*[А-Яа-яҐґЄєІіЇїA-Za-z\s\-]+$');
-
+    final regex = RegExp(r'^[А-Яа-яҐґЄєІіЇїA-Za-z.\s]+?\s+\d+[A-Za-zА-Яа-я0-9\-\/]*,\s*[А-Яа-яҐґЄєІіЇїA-Za-z\s\-]+$');
     return regex.hasMatch(trimmed);
   }
 

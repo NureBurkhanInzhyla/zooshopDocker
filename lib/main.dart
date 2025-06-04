@@ -12,8 +12,11 @@ import 'package:zooshop/cartProvider.dart';
 import 'catalog.dart';
 import 'package:zooshop/router.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  setUrlStrategy(PathUrlStrategy());
   final authProvider = AuthProvider();
   await authProvider.loadUserFromSession();
 
@@ -27,12 +30,11 @@ void main() async{
             if (authProvider.isLoggedIn && authProvider.user?.id != null) {
               cartProvider!.setUser(authProvider.user!.id!);
             }
-
             return cartProvider!;
           },
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -507,6 +509,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         width: 200,
+        height: 420,
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
