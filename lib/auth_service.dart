@@ -65,11 +65,11 @@ void login({required UserDTO user}) {
   void logout() {
     _isLoggedIn = false;
     _user = null;
+    clearUserSession();
     notifyListeners();
   }
   void setUser(UserDTO user) {
     _user = user;
-    clearUserSession();
     notifyListeners();
   }
 
