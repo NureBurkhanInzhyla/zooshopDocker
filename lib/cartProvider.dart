@@ -86,7 +86,6 @@ class CartProvider extends ChangeNotifier {
 
   Future<void> clear() async {
     _items.clear();
-    await clearCart(userId!);
     notifyListeners();
   }
 
