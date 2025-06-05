@@ -107,7 +107,7 @@ class MenuBottomNavigation extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog/animal?typee=Гризуни');
+                    context.push('/catalog/animal?type=Гризуни');
 
                   },
                   child: Text("Гризуни", style: TextStyle(color: Colors.black)),

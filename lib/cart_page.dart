@@ -367,8 +367,8 @@ void makeSubscription(BuildContext context, ProductDTO product) {
                   ),
                   RadioListTile<int>(
                     activeColor: Color(0xFF95C74E),
-                    title: Text('Раз в ${selectedPeriod == -1 ? 7 : selectedPeriod} днів', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
-                    value: -1,
+                    title: Text('Раз на 10 днів', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+                    value: 10,
                     groupValue: selectedPeriod,
                     onChanged: (val) => setState(() => selectedPeriod = val!),
                   ),

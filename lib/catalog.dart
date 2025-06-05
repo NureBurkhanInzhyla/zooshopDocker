@@ -213,7 +213,10 @@ class _CatalogPageState extends State<CatalogPage> {
       return 'Результати пошуку для "${widget.searchQuery}"';
     } else if (widget.animalType != null && widget.animalType!.isNotEmpty) {
       return 'Товари для категорії ${widget.animalType!.toLowerCase()}';
-    } else {
+    } else if(widget.isPromotional){
+      return 'Акції %';
+    }
+    else {
       return 'Усі товари';
     }
   }
