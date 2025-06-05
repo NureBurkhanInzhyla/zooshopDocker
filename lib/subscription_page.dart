@@ -232,33 +232,29 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
    
                 SizedBox(height: 4),
                 Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'раз ',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF333333),
-                        ),
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'раз ',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF333333),
                       ),
-                      TextSpan(
-                        text: 'на тиждень',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          decoration: TextDecoration.underline,
-                          decorationColor: Color(0xFFC16AFF),
-                          color: Color(0xFFC16AFF),
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            showSubscriptionDetails(context, subscription);
-                          },
+                    ),
+                    TextSpan(
+                      text: 'на ${getDeliveryPeriodText(subscription.deliveryFrequency)}',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFFC16AFF),
+                        decoration: TextDecoration.underline,
+                        decorationColor: Color(0xFFC16AFF),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
                  SizedBox(height: 5),
                   Text(
                     'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
@@ -279,6 +275,19 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
   );
 }
 
+String getDeliveryPeriodText(int days) {
+  switch (days) {
+    case 7:
+      return 'тиждень';
+    case 10:
+      return '10 днів';
+    case 30:
+    case 31:
+      return 'місяць';
+    default:
+      return '$days днів';
+  }
+}
 
 void showSubscriptionDetails(BuildContext context, SubscriptionDTO subscription) {
   int selectedPeriod = subscription.deliveryFrequency;
