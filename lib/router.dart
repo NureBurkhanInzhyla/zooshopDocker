@@ -21,11 +21,13 @@ final GoRouter router = GoRouter(
     GoRoute(path: '/account', builder: (context, state) => AccountPage()),
     GoRoute(path: '/catalog', builder: (context, state) => CatalogPage()),
     GoRoute(
-      path: '/search/:searchQuery',
-      builder:
-          (context, state) =>
-              CatalogPage(searchQuery: state.pathParameters['searchQuery']),
+      path: '/catalog',
+      builder: (context, state) {
+        final searchQuery = state.uri.queryParameters['searchQuery']; 
+        return CatalogPage(searchQuery: searchQuery);
+      },
     ),
+
     GoRoute(
       path: 'catalog/:animalType',
       builder:
