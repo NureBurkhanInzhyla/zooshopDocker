@@ -45,7 +45,7 @@ class HeaderBlock extends StatelessWidget {
                                   flex: 3, 
                                   child: SearchBar(
                                   onSearch: (query) {
-                                    context.push('/catalog?searchQuery=$query');
+                                    context.push('/catalog/search?query=$query');
                                   },
                                 ),
                               ),
@@ -93,42 +93,42 @@ class MenuBottomNavigation extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog?animalType=Кішки');
+                    context.push('/catalog/animal?type=Кішки');
 
                   },
                   child: Text("Кішки", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog?animalType=Собаки');
+                    context.push('/catalog/animal?type=Собаки');
 
                   },
                   child: Text("Собаки", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog?animalType=Гризуни');
+                    context.push('/catalog/animal?typee=Гризуни');
 
                   },
                   child: Text("Гризуни", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                  onPressed: () {
-                    context.push('/catalog?animalType=Птахи');
+                    context.push('/catalog/animal?type=Птахи');
 
                   },
                   child: Text("Птахи", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog?animalType=Риби');
+                    context.push('/catalog/animal?type=Риби');
 
                   },
                   child: Text("Риби", style: TextStyle(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push('/catalog?animalType=Рептилії');
+                    context.push('/catalog/animal?type=Рептилії');
 
                   },
                   child: Text("Рептилії", style: TextStyle(color: Colors.black)),

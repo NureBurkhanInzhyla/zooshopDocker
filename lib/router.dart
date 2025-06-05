@@ -19,21 +19,29 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => MainPage()),
     GoRoute(path: '/account', builder: (context, state) => AccountPage()),
-    GoRoute(path: '/catalog', builder: (context, state) => CatalogPage()),
     GoRoute(
-      path: 'catalog',
+      path: '/catalog',
       builder: (context, state) {
-        final searchQuery = state.uri.queryParameters['searchQuery'];
+        return CatalogPage();
+      },
+    ),
+
+    GoRoute(
+      path: '/catalog/search',
+      builder: (context, state) {
+        final searchQuery = state.uri.queryParameters['query'];
         return CatalogPage(searchQuery: searchQuery);
       },
     ),
+
     GoRoute(
-      path: 'catalog',
+      path: '/catalog/animal',
       builder: (context, state) {
-        final animalType = state.uri.queryParameters['animalType'];
+        final animalType = state.uri.queryParameters['type'];
         return CatalogPage(animalType: animalType);
       },
     ),
+
     GoRoute(
       path: '/promotions',
       builder: (context, state) => CatalogPage(isPromotional: true),
