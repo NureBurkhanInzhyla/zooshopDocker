@@ -172,18 +172,19 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
                       ),
                     ),
                     TextSpan(
-                      text: 'на тиждень',
+                      text: 'на ${getDeliveryPeriodText(subscription.deliveryFrequency)}',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFFC16AFF),
                         decoration: TextDecoration.underline,
-                         decorationColor: Color(0xFFC16AFF),
+                        decorationColor: Color(0xFFC16AFF),
                       ),
                     ),
                   ],
                 ),
               ),
+
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -251,6 +252,19 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
       ],
     ),
   );
+}
+String getDeliveryPeriodText(int days) {
+  switch (days) {
+    case 7:
+      return 'тиждень';
+    case 10:
+      return '10 днів';
+    case 30:
+    case 31:
+      return 'місяць';
+    default:
+      return '$days днів';
+  }
 }
 
 
