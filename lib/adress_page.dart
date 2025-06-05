@@ -121,10 +121,7 @@ class _AddressPageState extends State<AddressPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: FooterBlock(),
-        ), 
+      bottomNavigationBar:FooterBlock(),
     );
   }
 }

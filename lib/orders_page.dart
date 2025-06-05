@@ -83,6 +83,7 @@ Widget build(BuildContext context) {
               textAlign: TextAlign.center,
             ),
           ),
+          bottomNavigationBar:  FooterBlock(),
         );
       }
 
@@ -126,10 +127,7 @@ Widget build(BuildContext context) {
             ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: FooterBlock(),
-          ), 
+        bottomNavigationBar:  FooterBlock(),
       );
     },
   );
@@ -253,7 +251,7 @@ Widget build(BuildContext context) {
   final firstOrder = orderItems[0]; 
 
   Color statusColor;
-  final isCancellable = firstOrder.state == 'В обробці' || firstOrder.state == 'Не оплачен';
+  final isCancellable = firstOrder.state == 'В обробці' || firstOrder.state == 'Не сплачено' || firstOrder.state == "Сплачено";
   final canReorder = firstOrder.state == 'Скасовано' || firstOrder.state == 'Доставлено';
 
   switch (firstOrder.state) {

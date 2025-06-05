@@ -16,7 +16,7 @@ class FooterBlock extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
         return Container(
-         
+         width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
               IntrinsicWidth(
@@ -125,7 +125,8 @@ class UserProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
+        Expanded(
+          child: SizedBox(
             height: 60,
             child: ElevatedButton.icon(
               onPressed: () {
@@ -139,7 +140,8 @@ class UserProfileButton extends StatelessWidget {
               icon: const Icon(Icons.person, color: Color(0xFF95C74E)),
               label: Text(
                 userName,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis, 
                 style: const TextStyle(
                   color: Color.fromARGB(240, 61, 61, 61),
                   fontWeight: FontWeight.bold,
@@ -148,42 +150,42 @@ class UserProfileButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0), 
-
+                  borderRadius: BorderRadius.circular(0),
                   side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
                 ),
               ),
             ),
           ),
+        ),
 
-
-        Expanded(
-          child: SizedBox(
-            height: 60,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
+        SizedBox(
+          width: 60,      
+          height: 60,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(),
                 ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+                side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
               ),
-              child: const Icon(Icons.shopping_cart, color: Color(0xFF95C74E), size: 28),
             ),
+            child: const Icon(Icons.shopping_cart,
+                color: Color(0xFF95C74E), size: 28),
           ),
         ),
       ],
     );
   }
 }
+
 
 class RegisterDialog extends StatefulWidget {
   const RegisterDialog({Key? key}) : super(key: key);

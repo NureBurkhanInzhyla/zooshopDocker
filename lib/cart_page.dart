@@ -69,10 +69,7 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: FooterBlock(),
-            ), 
+          bottomNavigationBar:FooterBlock(), 
         );
       },
     );

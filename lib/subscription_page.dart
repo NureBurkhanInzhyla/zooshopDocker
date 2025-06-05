@@ -99,10 +99,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: FooterBlock(),
-        ), 
+      bottomNavigationBar:FooterBlock(),
     );
   }
 

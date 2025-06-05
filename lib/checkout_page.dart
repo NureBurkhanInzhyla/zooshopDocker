@@ -104,7 +104,7 @@ Widget build(BuildContext context) {
             _buildInput('Email', controller: emailController),
 
             const SizedBox(height: 30),
-            _buildInput('Адреса доставки', controller: addressController),
+            _buildInput('Адреса доставки', controller: addressController, isAddress: true),
 
             const SizedBox(height: 30),
             _sectionTitle('Коментар до замовлення'),
@@ -372,7 +372,6 @@ Widget build(BuildContext context) {
               right: 12,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pop(); 
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => MainPage()),
                     (route) => false,
