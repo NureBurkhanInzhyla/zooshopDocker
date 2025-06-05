@@ -145,8 +145,8 @@ Widget build(BuildContext context) {
         borderRadius: BorderRadius.circular(10),
       ),
       child: SizedBox(
-        width: 460,
-        height: 370,
+        width: 400,
+        height: 360,
         child: Stack(
           children: [
             Column(
@@ -160,18 +160,19 @@ Widget build(BuildContext context) {
                   'Ви впевнені, що бажаєте\nскасувати замовлення?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF333333),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 31, left: 25, top: 17),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  padding: EdgeInsets.only(bottom: 28, top: 17),
+                  child: Center(
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 145,
+                        width: 135,
                         height: 40,
                         child: OutlinedButton(
                           onPressed: () => Navigator.pop(context),
@@ -185,14 +186,14 @@ Widget build(BuildContext context) {
                           ),
                           child: Text(
                             'Не скасовувати',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                       SizedBox(width: 15),
                       SizedBox(
-                        width: 120,
+                        width: 110,
                         height: 40,
                         child: ElevatedButton(
                           onPressed: () async {
@@ -210,12 +211,13 @@ Widget build(BuildContext context) {
                           ),
                           child: Text(
                             'Скасувати',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                     ],
+                  ),
                   ),
                 ),
               ],
@@ -386,8 +388,8 @@ Widget build(BuildContext context) {
         backgroundColor: Color(0xFFFFFFFF),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: SizedBox(
-          width: 460,
-          height: 179,
+          width: 400,
+          height: 182,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -402,11 +404,11 @@ Widget build(BuildContext context) {
                 ),
               ),
               SizedBox(height: 20),
-              Row(
+              Center(
+                child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 130,
                     child: OutlinedButton(
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
@@ -417,14 +419,13 @@ Widget build(BuildContext context) {
                     ),
                     child: Text(
                       'Скасувати',
-                      style: TextStyle(color: Color(0xFF67AF45), fontSize: 16),
+                      style: TextStyle(color: Color(0xFF67AF45), fontSize: 14),
                     ),
                   )
                   
                   ),
                   SizedBox(width: 20),
                   SizedBox(
-                    width: 130,
                       child: ElevatedButton(
                       onPressed: () async {
                         Navigator.pop(context);
@@ -437,12 +438,14 @@ Widget build(BuildContext context) {
                             await cartProvider.addOrUpdateCartItem(orderItem.product, context);
                           }
                         }
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Товари додано до кошика')),
-                        );
+                        if(context.mounted){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Товари додано до кошика')),
+                            );
 
                         Navigator.push(context, MaterialPageRoute(builder: (_) => CartPage()));
+                        }
+                        
                       },
 
                       style: ElevatedButton.styleFrom(
@@ -453,12 +456,13 @@ Widget build(BuildContext context) {
                       ),
                       child: Text(
                         'Додати',
-                        style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF), fontWeight: FontWeight.w600 ),
+                        style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF), fontWeight: FontWeight.w600 ),
                       ),
                     ),
                   ),
                   
                 ],
+              ),
               ),
             ],
           ),
@@ -469,37 +473,3 @@ Widget build(BuildContext context) {
 
 }
 
-class Order {
-  String name;
-  String state;
-  int quantity;
-  int number;
-  double sum;
-
-  Order({
-    String? name,
-    this.state = "В обробці",
-    this.quantity = 3,
-    this.number = 10662,
-    this.sum = 3651,
-  }) : name = name ?? "Замовлення від ${DateTime.now().toIso8601String().split('T')[0]}";
-}
-
-// class OrdersProvider with ChangeNotifier {
-//   List<Order> _orders = [];
-
-//   List<Order> get orders => _orders;
-
-//   int get processingCount =>
-//       _orders.where((o) => o.state == 'В обробці').length;
-
-//   void setOrders(List<Order> orders) {
-//     _orders = orders;
-//     notifyListeners();
-//   }
-
-//   void cancelOrder(int index) {
-//     _orders[index].state = 'Скасовано';
-//     notifyListeners();
-//   }
-// }

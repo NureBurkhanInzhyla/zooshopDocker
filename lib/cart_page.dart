@@ -121,7 +121,7 @@ Widget _buildCartItem(Cart cartItem) {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '${item.price.toStringAsFixed(0)} ₴',
+                      '${item.price * cartItem.count} ₴',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
