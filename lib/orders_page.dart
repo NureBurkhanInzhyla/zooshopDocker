@@ -479,13 +479,15 @@ class _OrdersPageState extends State<OrdersPage> {
                               }
                             }
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Товари додано до кошика'),
-                              ),
-                            );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Товари додано до кошика'),
+                                ),
+                              );
 
-                            context.push('/cart');
+                              context.push('/cart');
+                            }
                           },
 
                           style: ElevatedButton.styleFrom(
