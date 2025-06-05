@@ -65,27 +65,39 @@ class _CatalogPageState extends State<CatalogPage> {
     });
 
     try {
-        if (widget.isPromotional) {
-          final allProducts = await fetchProducts(); 
-          final promoProducts = allProducts.where((product) {
-            return product.discountPercent != null && product.discountPercent! > 0;
-          }).toList();
-
-
-          setState(() {
-            products = promoProducts;
-            isLoading = false;
-            _currentPage = 0;
-          });
-          return;
-        }
-
-
       List<String> selectedTypes = productTypes.entries
           .where((entry) => entry.value)
           .map((entry) => entry.key)
           .toList();
 
+       if (widget.isPromotional) {
+        final allProducts = await fetchProducts();
+
+        var filtered = allProducts.where((product) => product.discountPercent != null && product.discountPercent! > 0);
+
+        if (startPrice != null) {
+          filtered = filtered.where((product) => product.price >= startPrice!);
+        }
+        if (endPrice != null) {
+          filtered = filtered.where((product) => product.price <= endPrice!);
+        }
+
+        if (selectedTypes.isNotEmpty) {
+          filtered = filtered.where((product) => selectedTypes.contains(product.productCategory));
+        }
+
+        if (widget.animalType != null && widget.animalType!.isNotEmpty) {
+          filtered = filtered.where((product) => product.petCategory == widget.animalType);
+        }
+
+        setState(() {
+          products = filtered.toList();
+          isLoading = false;
+          _currentPage = 0;
+        });
+        return;
+      }
+      
       if (selectedTypes.isNotEmpty) {
         final noProducts = await fetchProductsByFiltration(
           name: searchQuery,

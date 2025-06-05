@@ -705,9 +705,10 @@ class BrandsBlock extends StatelessWidget {
 
 class OneClickOrderText extends StatelessWidget {
   const OneClickOrderText({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
+    
     return Text.rich(
       TextSpan(
         text: '',
@@ -740,6 +741,7 @@ class OneClickOrderDialog extends StatefulWidget {
 class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
+  final RegExp phoneRegExp = RegExp(r'^\+?380\d{9}$');
 
  @override
   Widget build(BuildContext context) {
@@ -786,7 +788,16 @@ class _OneClickOrderDialogState extends State<OneClickOrderDialog> {
                   onPressed: () {
                     final name = _nameController.text;
                     final phone = _phoneController.text;
-                    print('Надіслано: $name, $phone');
+
+                    if (!phoneRegExp.hasMatch(phone)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Введіть правильний номер телефону у форматі +380XXXXXXXXX'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(

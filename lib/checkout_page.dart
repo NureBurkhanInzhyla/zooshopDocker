@@ -10,6 +10,7 @@ import 'package:zooshop/models/Cart.dart';
 import 'package:zooshop/models/Order.dart';
 import 'package:zooshop/models/Monobank.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zooshop/models/User.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -27,24 +28,42 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final commentController = TextEditingController();
   final addressController = TextEditingController();
 
-
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final user = authProvider.user;
-    if (user != null) {
-      final parts = user.name.split(' ');
-      nameController.text = parts.isNotEmpty ? parts[0] : '';
-      surnameController.text = parts.length > 1 ? parts.sublist(1).join(' ') : '';
-      emailController.text = user.email;
-      if (user.address != null) {
-        addressController.text = user.address!;
+    nameController.addListener(_onFormChanged);
+    surnameController.addListener(_onFormChanged);
+    emailController.addListener(_onFormChanged);
+    addressController.addListener(_onFormChanged);
+  }
+
+    void _onFormChanged() {
+      setState(() {});
+    }
+
+    @override
+    void didChangeDependencies() {
+      super.didChangeDependencies();
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final user = authProvider.user;
+
+      if (user != null) {
+        final parts = user.name.split(' ');
+        nameController.text = parts.isNotEmpty ? parts[0] : '';
+        surnameController.text = parts.length > 1 ? parts.sublist(1).join(' ') : '';
+        emailController.text = user.email;
+        if (user.address != null) {
+          addressController.text = user.address!;
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          setState(() {});
+        });
       }
     }
-  }
+
 
   @override
   void dispose() {
@@ -152,7 +171,6 @@ Widget build(BuildContext context) {
                 const Flexible(child: Text('Я прочитав та згоден з ')),
                 TextButton(
                   onPressed: () {
-                    // открыть условия
                   },
                   child: const Text(
                     'Умовами згоди',
@@ -165,54 +183,62 @@ Widget build(BuildContext context) {
             SizedBox(
               width: double.infinity,
               child:ElevatedButton(
-                
                 onPressed: isFormValid ? () async {
                   final authProvider = Provider.of<AuthProvider>(context, listen: false);
                   final user = authProvider.user;
 
                   if (user != null) {
-                    try {
-                      int orderId = await createOrder(user.id!);
-                      await clearCart(user.id!);
+                    UserDTO updatedUser = user.copyWith(
+                      name: '${nameController.text} ${surnameController.text}'.trim(),
+                      email: emailController.text,
+                      address: addressController.text
+                    );
 
-                      final MonobankService _monobankService = MonobankService();
-                      final url = await _monobankService.createInvoice(
-                        amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 100, 
-                        currency: 980,
-                        description: 'Test payment',
-                        redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
-                        webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
-                        reference: orderId.toString()
-                      );
-                      final Uri _url = Uri.parse(url);
-                      await launchUrl(_url);
+                    authProvider.setUser(updatedUser);
+                    await updateUser(updatedUser);
+
+                    if(selectedPayment == 'card')
+                    {
+                      try {
+
+                        final MonobankService _monobankService = MonobankService();
+                        final url = await _monobankService.createInvoice(
+                          amount: Provider.of<CartProvider>(context, listen: false).totalPrice * 100,
+                          currency: 980, 
+                          description: 'Test payment',
+                          redirectUrl: 'https://zooshop-61f32.firebaseapp.com/',
+                          webhookUrl: 'https://zooshop-dnu7.onrender.com/api/Webhook',
+                          reference: user.id.toString()
+                        );
+                        final Uri _url = Uri.parse(url);
+                        await launchUrl(_url);
+                        Provider.of<CartProvider>(context, listen: false).clear();
+                        Navigator.of(context).pop(); 
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => MainPage()),
+                          (route) => false,
+                        );
+
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Помилка при створенні замовлення')),
+                        );
+                      }
+                    }
+                    else {
+                      await createOrder(user!.id!);
+                      await clearCart(user.id!);
                       Provider.of<CartProvider>(context, listen: false).clear();
                       showOrderConfirmationDialog(context);
-
-                      //     Navigator.of(context).pop(); 
-                      // Navigator.of(context).pushAndRemoveUntil(
-                      //   MaterialPageRoute(builder: (_) => MainPage()),
-                      //   (route) => false,
-                      // );
-                      
-
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Помилка при створенні замовлення')),
-                      );
                     }
-
-                  }
+                  } 
                 } : null,
 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFB460DC),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5), 
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                 ),
-                ),
-                child: const Text(
+                child: Text(
                   'Підтвердити замовлення',
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
@@ -232,13 +258,21 @@ Widget build(BuildContext context) {
 }
 
 
+  bool isValidAddress(String address) {
+    final trimmed = address.trim();
+    final regex = RegExp(r'^[А-Яа-яҐґЄєІіЇїA-Za-z.\s]+?\s+\d+[A-Za-zА-Яа-я0-9\-\/]*,\s*[А-Яа-яҐґЄєІіЇїA-Za-z\s\-]+$');
+    return regex.hasMatch(trimmed);
+  }
+
+
   bool get isFormValid {
     return nameController.text.trim().isNotEmpty &&
         surnameController.text.trim().isNotEmpty &&
         emailController.text.trim().isNotEmpty &&
-        addressController.text.trim().isNotEmpty &&
+        isValidAddress(addressController.text) &&
         agreedToTerms;
   }
+
 
   Widget _sectionTitle(String text) {
     return Text(
@@ -247,14 +281,21 @@ Widget build(BuildContext context) {
     );
   }
 
-  Widget _buildInput(String label, {required TextEditingController controller}) {
+  Widget _buildInput(String label, {
+    required TextEditingController controller,
+    bool isAddress = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 12),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
+          hintText: isAddress ? 'вул. Хрещатик 22, Київ' : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+          errorText: isAddress && controller.text.isNotEmpty && !isValidAddress(controller.text)
+              ? 'Введіть адресу у вигляді "вул. Хрещатик 22, Київ"'
+              : null,
         ),
       ),
     );

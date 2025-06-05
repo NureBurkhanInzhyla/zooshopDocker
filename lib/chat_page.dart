@@ -11,12 +11,15 @@ class ChatPage extends StatelessWidget {
     final user = Provider.of<AuthProvider>(context, listen: false).user;
 
     return Scaffold(
- 
-      body: Tawk(
-        directChatLink: 'https://tawk.to/chat/683da51140108d190d448922/1isocpjkb',
-        visitor: TawkVisitor(
-          name: user?.name ?? "Гість",
-          email: user?.email ?? "",
+      backgroundColor: Color(0xFFC16AFF),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Tawk(
+          directChatLink: 'https://tawk.to/chat/683da51140108d190d448922/1isocpjkb',
+          visitor: TawkVisitor(
+            name: user?.name ?? "Гість",
+            email: user?.email ?? "",
+          ),
         ),
       ),
     );
