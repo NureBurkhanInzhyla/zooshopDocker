@@ -24,6 +24,7 @@ final GoRouter router = GoRouter(
       path: '/catalog',
       builder: (context, state) {
         final searchQuery = state.uri.queryParameters['searchQuery']; 
+        print('SearchQuery from URL: $searchQuery');  
         return CatalogPage(searchQuery: searchQuery);
       },
     ),
