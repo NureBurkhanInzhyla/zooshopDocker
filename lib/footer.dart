@@ -125,8 +125,8 @@ class UserProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: SizedBox(
+        SizedBox(
+            height: 60,
             child: ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -155,7 +155,6 @@ class UserProfileButton extends StatelessWidget {
               ),
             ),
           ),
-        ),
 
 
         Expanded(

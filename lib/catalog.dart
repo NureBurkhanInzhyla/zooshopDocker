@@ -97,7 +97,7 @@ class _CatalogPageState extends State<CatalogPage> {
         });
         return;
       }
-      
+
       if (selectedTypes.isNotEmpty) {
         final noProducts = await fetchProductsByFiltration(
           name: searchQuery,
@@ -626,7 +626,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                  Padding(
-                  padding: const EdgeInsets.only(top: 15),
+                  padding: const EdgeInsets.only(top: 15, bottom: 10),
                   child: OneClickOrderText(),
                 ),
               ],

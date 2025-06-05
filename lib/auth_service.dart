@@ -15,7 +15,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
    try {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    print(googleUser);
 
     if (googleUser == null) {
       print('User cancelled sign-in');
@@ -26,7 +25,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
 
     final String? idToken = googleAuth?.idToken;
-    print(idToken);
 
     if (idToken == null) {
       print('Could not get idToken');
@@ -71,26 +69,3 @@ class AuthProvider extends ChangeNotifier {
   }
 }
 
-Future<Map<String, dynamic>?> exchangeServerAuthCodeForTokens(
-    String serverAuthCode) async {
-  final response = await http.post(
-    Uri.parse('https://oauth2.googleapis.com/token'),
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: {
-      'client_id': 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
-      'client_secret': 'YOUR_CLIENT_SECRET',
-      'code': serverAuthCode,
-      'grant_type': 'authorization_code',
-      'redirect_uri': '', 
-    },
-  );
-
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    print('Tokens response: $data');
-    return data;
-  } else {
-    print('Failed token exchange: ${response.body}');
-    return null;
-  }
-}
