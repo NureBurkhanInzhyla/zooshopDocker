@@ -232,29 +232,33 @@ Widget _buildSubscriptionCard(SubscriptionDTO subscription, int index) {
    
                 SizedBox(height: 4),
                 Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'раз ',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF333333),
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'раз ',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF333333),
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'на ${getDeliveryPeriodText(subscription.deliveryFrequency)}',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFFC16AFF),
-                        decoration: TextDecoration.underline,
-                        decorationColor: Color(0xFFC16AFF),
+                      TextSpan(
+                        text: 'на ${getDeliveryPeriodText(subscription.deliveryFrequency)}',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFFC16AFF),
+                          decoration: TextDecoration.underline,
+                          decorationColor: Color(0xFFC16AFF),
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            showSubscriptionDetails(context, subscription);
+                          },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
                  SizedBox(height: 5),
                   Text(
                     'Наступна доставка: ${DateFormat('dd.MM.yyyy').format(nextDelivery)}',
