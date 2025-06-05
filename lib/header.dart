@@ -37,7 +37,6 @@ class HeaderBlock extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MenuTopNavigation(),
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -70,36 +69,6 @@ class HeaderBlock extends StatelessWidget {
 }
 
 
-class MenuTopNavigation extends StatelessWidget {
-  const MenuTopNavigation({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          spacing: 30.0,
-          children: [
-            Text("О нас"),
-            Text("Доставка"),
-            Text("Часті запитання"),
-            Text("Відгуки"),
-            Text("Статті"),
-            Text("Контакти"),
-            Row(
-              spacing: 10,
-              children: [
-                Icon(Icons.call, color: Color(0xFF95C74E)),
-                Text("+380991992827"),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
 
 class MenuBottomNavigation extends StatelessWidget {
   const MenuBottomNavigation({super.key});
@@ -163,6 +132,12 @@ class MenuBottomNavigation extends StatelessWidget {
 
                   },
                   child: Text("Рептилії", style: TextStyle(color: Colors.black)),
+                ),
+                 TextButton(
+                  onPressed: () {
+                    context.push('/promotions');
+                  },
+                  child: Text("Акції %", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600)),
                 ),
               ],
             ),

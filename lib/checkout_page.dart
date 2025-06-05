@@ -303,7 +303,7 @@ Widget build(BuildContext context) {
           hintText: isAddress ? 'вул. Хрещатик 22, Київ' : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
           errorText: isAddress && controller.text.isNotEmpty && !isValidAddress(controller.text)
-              ? 'Введіть повну адресу з номером будинку та містом'
+              ? 'Введіть адресу у вигляді "вул. Хрещатик 22, Київ"'
               : null,
         ),
       ),

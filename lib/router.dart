@@ -42,6 +42,10 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
+      path: '/promotions',
+      builder: (context, state) => CatalogPage(isPromotional: true),
+    ),
+    GoRoute(
       path: '/address',
       builder: (context, state) => AddressPage(),
     ),

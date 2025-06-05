@@ -124,27 +124,31 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Center(
-          child: SizedBox(
-            width: screenWidth * 0.82,
-            child: Column(
-              children: [
-                HeaderBlock(),
-                SizedBox(height: 50),
-                PromoVetCard(),
-                SizedBox(height: 50),
-                SalesBlock(products: salesProducts),
-                SizedBox(height: 130),
-                PromoConsultCard(),
-                SizedBox(height: 100),
-                NewsBlock(products: latestFive),
-                SizedBox(height: 50),
-                BrandsBlock(),
-                SizedBox(height: 70),
-                FooterBlock(),
-              ],
+        child: Column(
+          children: [
+            Center(
+              child: SizedBox(
+                width: screenWidth * 0.82,
+                child: Column(
+                  children: [
+                    HeaderBlock(),
+                    SizedBox(height: 50),
+                    PromoVetCard(),
+                    SizedBox(height: 50),
+                    SalesBlock(products: salesProducts),
+                    SizedBox(height: 130),
+                    PromoConsultCard(),
+                    SizedBox(height: 100),
+                    NewsBlock(products: latestFive),
+                    SizedBox(height: 50),
+                    BrandsBlock(),
+                    SizedBox(height: 70),
+                  ],
+                ),
+              ),
             ),
-          ),
+            FooterBlock(),
+          ],
         ),
       ),
     );

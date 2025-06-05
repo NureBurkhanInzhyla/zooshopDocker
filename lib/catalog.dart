@@ -11,9 +11,10 @@ import 'package:go_router/go_router.dart';
 
 class CatalogPage extends StatefulWidget {
   final String? searchQuery;
-  final String? animalType; 
+  final String? animalType;
+  final bool isPromotional;
 
-  const CatalogPage({Key? key, this.searchQuery, this.animalType}) : super(key: key);
+  const CatalogPage({Key? key, this.searchQuery, this.animalType, this.isPromotional = false}) : super(key: key);
 
   @override
   State<CatalogPage> createState() => _CatalogPageState();
@@ -60,7 +61,7 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
 
-  Future<void> _loadProducts() async {
+    Future<void> _loadProducts() async {
     setState(() {
       isLoading = true;
     });
@@ -71,6 +72,34 @@ class _CatalogPageState extends State<CatalogPage> {
           .map((entry) => entry.key)
           .toList();
 
+       if (widget.isPromotional) {
+        final allProducts = await fetchProducts();
+
+        var filtered = allProducts.where((product) => product.discountPercent != null && product.discountPercent! > 0);
+
+        if (startPrice != null) {
+          filtered = filtered.where((product) => product.price >= startPrice!);
+        }
+        if (endPrice != null) {
+          filtered = filtered.where((product) => product.price <= endPrice!);
+        }
+
+        if (selectedTypes.isNotEmpty) {
+          filtered = filtered.where((product) => selectedTypes.contains(product.productCategory));
+        }
+
+        if (widget.animalType != null && widget.animalType!.isNotEmpty) {
+          filtered = filtered.where((product) => product.petCategory == widget.animalType);
+        }
+
+        setState(() {
+          products = filtered.toList();
+          isLoading = false;
+          _currentPage = 0;
+        });
+        return;
+      }
+      
       if (selectedTypes.isNotEmpty) {
         final noProducts = await fetchProductsByFiltration(
           name: searchQuery,
@@ -94,7 +123,7 @@ class _CatalogPageState extends State<CatalogPage> {
         startPrice: startPrice,
         endPrice: endPrice,
         petCategory: widget.animalType,
-        productCategory: null, 
+        productCategory: null,
       );
 
       setState(() {
@@ -503,127 +532,160 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasDiscount = product.discountPercent != null && product.discountPercent! > 0;
+    final double originalPrice = product.price.toDouble();
+    final double discountedPrice = hasDiscount
+        ? originalPrice - (originalPrice * product.discountPercent! / 100)
+        : originalPrice;
+
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () {
         context.push('/product/${product.id}');
-
       },
       child: Container(
         constraints: BoxConstraints(
           maxWidth: 220,
           maxHeight: 480,
         ),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(
-            color: Colors.grey.shade300,
-            width: 0.5,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            // Изображение товара
             Container(
-              width: 190,
-              height: 190,
-              child: ClipRRect(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  product.image,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported),
+                border: Border.all(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-      
-            Text(
-              product.name,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (product.desc.isNotEmpty) ...[
-              SizedBox(height: 4),
-              Text(
-                product.desc,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 8),
-                  child: Text(
-                    '${product.price} ₴',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 190,
+                    height: 190,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.asset(
+                        product.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+
+                  Text(
+                    product.name,
                     style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (product.desc.isNotEmpty) ...[
+                    SizedBox(height: 4),
+                    Text(
+                      product.desc,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text(
+                          '${discountedPrice.toStringAsFixed(0)} ₴',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20,
+                            color: hasDiscount ? Color(0xFFF54949) : Colors.black,
+                          ),
+                        ),
+                      ),
+                      if (hasDiscount) ...[
+                        SizedBox(width: 10),
+                        Text(
+                          '${originalPrice.toStringAsFixed(0)} ₴',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                        if (authProvider.isLoggedIn) {
+                          Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
+                        } else {
+                          showRegisterDialog(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF95C74E),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: Text(
+                        'Купити',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  OneClickOrderText(),
+                ],
+              ),
+            ),
+            if (hasDiscount)
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF54949),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    '-${product.discountPercent!.toStringAsFixed(0)}%',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
                     ),
                   ),
                 ),
-                // if (product.oldPrice != null) ...[
-                //   SizedBox(width: 8),
-                //   Text(
-                //     '${product.oldPrice} ₴',
-                //     style: TextStyle(
-                //       decoration: TextDecoration.lineThrough,
-                //       color: Colors.grey,
-                //       fontSize: 16,
-                //     ),
-                //   ),
-                // ]
-              ],
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                  if(authProvider.isLoggedIn){
-                      Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
-                  }
-                  else{
-                    showRegisterDialog(context);
-                  }
-                 
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF95C74E),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                child: Text(
-                  'Купити',
-                  style: TextStyle(color: Colors.white),
-                ),
               ),
-            ),
-            SizedBox(height: 15),
-            OneClickOrderText(),
           ],
         ),
       ),
     );
   }
 }
+
 
