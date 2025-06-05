@@ -21,7 +21,7 @@ final GoRouter router = GoRouter(
     GoRoute(path: '/account', builder: (context, state) => AccountPage()),
     GoRoute(path: '/catalog', builder: (context, state) => CatalogPage()),
     GoRoute(
-      path: 'search/:searchQuery',
+      path: '/search/:searchQuery',
       builder:
           (context, state) =>
               CatalogPage(searchQuery: state.pathParameters['searchQuery']),
