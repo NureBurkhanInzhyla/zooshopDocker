@@ -11,8 +11,9 @@ import 'package:zooshop/cartProvider.dart';
 class CatalogPage extends StatefulWidget {
   final String? searchQuery;
   final String? animalType;
+  final bool isPromotional;
 
-  const CatalogPage({Key? key, this.searchQuery, this.animalType}) : super(key: key);
+  const CatalogPage({Key? key, this.searchQuery, this.animalType, this.isPromotional = false}) : super(key: key);
 
   @override
   State<CatalogPage> createState() => _CatalogPageState();
@@ -20,7 +21,7 @@ class CatalogPage extends StatefulWidget {
 
 class _CatalogPageState extends State<CatalogPage> {
   int _currentPage = 0;
-  final int _productsPerPage = 12;
+  final int _productsPerPage = 15;
   List<ProductDTO> products = [];
   bool isLoading = true;
   List<String> petCategories = [];
@@ -64,6 +65,22 @@ class _CatalogPageState extends State<CatalogPage> {
     });
 
     try {
+        if (widget.isPromotional) {
+          final allProducts = await fetchProducts(); 
+          final promoProducts = allProducts.where((product) {
+            return product.discountPercent != null && product.discountPercent! > 0;
+          }).toList();
+
+
+          setState(() {
+            products = promoProducts;
+            isLoading = false;
+            _currentPage = 0;
+          });
+          return;
+        }
+
+
       List<String> selectedTypes = productTypes.entries
           .where((entry) => entry.value)
           .map((entry) => entry.key)
@@ -122,6 +139,7 @@ class _CatalogPageState extends State<CatalogPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: FooterBlock(),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -136,11 +154,11 @@ class _CatalogPageState extends State<CatalogPage> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 69, 48, 40),
+                        color: Color.fromARGB(255, 39, 39, 39),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: _buildSettingsBlock(),
@@ -152,8 +170,7 @@ class _CatalogPageState extends State<CatalogPage> {
                   ),
                   SizedBox(height: 20),
                   _buildPagination(totalPages),
-                  SizedBox(height: 20),
-                  FooterBlock(),
+                  SizedBox(height: 40)
                 ],
               ),
             ),
@@ -165,123 +182,135 @@ class _CatalogPageState extends State<CatalogPage> {
       return 'Результати пошуку для "${widget.searchQuery}"';
     } else if (widget.animalType != null && widget.animalType!.isNotEmpty) {
       return 'Товари для категорії ${widget.animalType!.toLowerCase()}';
-    } else {
+    } else if(widget.isPromotional == true){
+      return 'Акції %';
+    }else{
       return 'Усі товари';
+
     }
   }
 
   Widget _buildSettingsBlock() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Ціна", style: TextStyle(fontSize: 18)),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _startPriceController,
-                decoration: InputDecoration(
-                  labelText: "Від",
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: TextField(
-                controller: _endPriceController,
-                decoration: InputDecoration(
-                  labelText: "До",
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                backgroundColor: Color(0xFFC16AFF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+  return ExpansionTile(
+    title: Text("Фільтри", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+    initiallyExpanded: false,
+    childrenPadding: EdgeInsets.symmetric(horizontal: 0),
+    tilePadding: EdgeInsets.zero,
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Ціна", style: TextStyle(fontSize: 16)),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _startPriceController,
+                  decoration: InputDecoration(
+                    labelText: "Від",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  ),
+                  keyboardType: TextInputType.number,
                 ),
               ),
-              onPressed: () {
+              SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  controller: _endPriceController,
+                  decoration: InputDecoration(
+                    labelText: "До",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  backgroundColor: Color(0xFFC16AFF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    startPrice = int.tryParse(_startPriceController.text);
+                    endPrice = int.tryParse(_endPriceController.text);
+                  });
+                  _loadProducts();
+                },
+                child: Text(
+                  "Накласти фільтр",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  backgroundColor: Color.fromARGB(255, 221, 212, 228),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    startPrice = null;
+                    endPrice = null;
+                    _startPriceController.clear();
+                    _endPriceController.clear();
+                    productTypes.updateAll((key, value) => false);
+                  });
+                  _loadProducts();
+                },
+                child: Text(
+                  "Зняти фільтр",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 71, 71, 71),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Text("Тип", style: TextStyle(fontSize: 16)),
+          SizedBox(height: 10),
+          ...productTypes.keys.map((type) {
+            return CheckboxListTile(
+              title: Text(type, style: TextStyle(fontSize: 14)),
+              value: productTypes[type],
+              onChanged: (bool? val) {
                 setState(() {
-                  startPrice = int.tryParse(_startPriceController.text);
-                  endPrice = int.tryParse(_endPriceController.text);
+                  productTypes[type] = val ?? false;
                 });
                 _loadProducts();
               },
-              child: Text(
-                "Накласти фільтр",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                backgroundColor: Color.fromARGB(255, 221, 212, 228),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              onPressed: () {
-                setState(() {
-                  startPrice = null;
-                  endPrice = null;
-                  _startPriceController.clear();
-                  _endPriceController.clear();
-                  productTypes.updateAll((key, value) => false);
-                });
-                _loadProducts();
-              },
-              child: Text(
-                "Зняти фільтр",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color.fromARGB(255, 71, 71, 71),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Text("Тип", style: TextStyle(fontSize: 16)),
-        SizedBox(height: 10),
-        ...productTypes.keys.map((type) {
-          return CheckboxListTile(
-            title: Text(type, style: TextStyle(fontSize: 14)),
-            value: productTypes[type],
-            onChanged: (bool? val) {
-              setState(() {
-                productTypes[type] = val ?? false;
-              });
-              _loadProducts();
-            },
-            activeColor: Color(0xFFC16AFF),
-            controlAffinity: ListTileControlAffinity.leading,
-            contentPadding: EdgeInsets.zero,
-          );
-        }).toList(),
-      ],
-    );
-  }
+              activeColor: Color(0xFFC16AFF),
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.zero,
+            );
+          }).toList(),
+        ],
+      )
+    ],
+  );
+}
+
 
   Widget _buildPagination(int totalPages) {
     return Row(
@@ -470,6 +499,12 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasDiscount = product.discountPercent != null && product.discountPercent! > 0;
+    final double originalPrice = product.price.toDouble();
+    final double discountedPrice = hasDiscount
+        ? originalPrice - (originalPrice * product.discountPercent! / 100)
+        : originalPrice;
+
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () {
@@ -478,88 +513,138 @@ class ProductCard extends StatelessWidget {
           MaterialPageRoute(builder: (context) => ProductPage(product: product)),
         );
       },
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Colors.grey.shade300, width: 0.5),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  product.image,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported, size: 50),
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(color: Colors.grey.shade300, width: 0.5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 120,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      product.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Icon(Icons.image_not_supported, size: 50),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              product.name,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (product.desc.isNotEmpty) ...[
-              SizedBox(height: 4),
-              Text(
-                product.desc,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 10,
+                SizedBox(height: 10),
+                Text(
+                  product.name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            Spacer(),
-            Text(
-              '${product.price} ₴',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 16,
-              ),
+                if (product.desc.isNotEmpty) ...[
+                  SizedBox(height: 4),
+                  Text(
+                    product.desc,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${discountedPrice.toStringAsFixed(0)} ₴',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: hasDiscount ? Color(0xFFF54949) : Colors.black,
+                      ),
+                    ),
+                    if (hasDiscount) ...[
+                      SizedBox(width: 8),
+                      Text(
+                        '${originalPrice.toStringAsFixed(0)} ₴',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  height: 32,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                      if (authProvider.isLoggedIn) {
+                        Provider.of<CartProvider>(context, listen: false)
+                            .addOrUpdateCartItem(product, context);
+                      } else {
+                        showRegisterDialog(context);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF95C74E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Text(
+                      'Купити',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
+                ),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: OneClickOrderText(),
+                ),
+              ],
             ),
-            SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              height: 32,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                  if (authProvider.isLoggedIn) {
-                    Provider.of<CartProvider>(context, listen: false).addOrUpdateCartItem(product, context);
-                  } else {
-                    showRegisterDialog(context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF95C74E),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+          ),
+
+          if (hasDiscount)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Color(0xFFF54949),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(10),
                   ),
                 ),
                 child: Text(
-                  'Купити',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  '-${product.discountPercent!.toStringAsFixed(0)}%',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            OneClickOrderText(),
-          ],
-        ),
+        ],
       ),
     );
   }

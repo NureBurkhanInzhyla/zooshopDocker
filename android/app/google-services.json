@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "722768150127",
+    "project_id": "zooshop-61f32",
+    "storage_bucket": "zooshop-61f32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722768150127:android:7ca36c4f7ae3f987e7d79a",
+        "android_client_info": {
+          "package_name": "com.example.zooshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722768150127-vna222eh6k36p0ajdkbv0obt863nuc3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zooshop",
+            "certificate_hash": "c696e53c4a1ea1bd0e314e867fe58c0be42c7a82"
+          }
+        },
+        {
+          "client_id": "722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8YuYQpYyG-jgry0U3VVPL8uU93TZl70Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

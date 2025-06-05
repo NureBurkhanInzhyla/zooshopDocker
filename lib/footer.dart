@@ -16,13 +16,12 @@ class FooterBlock extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          color: Colors.white,
+         
           child: Row(
             children: [
               IntrinsicWidth(
                 child: SizedBox(
-                  height: 50,
+                  height: 60,
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(
@@ -33,9 +32,8 @@ class FooterBlock extends StatelessWidget {
                     },
                     child: const Icon(Icons.home, color: Color(0xFF95C74E), size: 24),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(0),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       backgroundColor: Colors.white,
@@ -44,11 +42,10 @@ class FooterBlock extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 8),
 
               IntrinsicWidth(
                 child: SizedBox(
-                  height: 50,
+                  height: 60,
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -57,22 +54,19 @@ class FooterBlock extends StatelessWidget {
                     },
                     child: const Icon(Icons.chat, color: Color(0xFF95C74E), size: 24),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(0),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       backgroundColor: Colors.white,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(width: 8),
 
               Expanded(
                 child: SizedBox(
-                  height: 50,
+                  height: 60,
                   child: authProvider.isLoggedIn && authProvider.user != null
                       ? UserProfileButton(userName: authProvider.user!.name)
                       : const LoginButton(),
@@ -94,7 +88,6 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50, 
       child: ElevatedButton.icon(
         onPressed: () {
           showRegisterDialog(context);
@@ -113,10 +106,9 @@ class LoginButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(0), 
             side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 10),
         ),
       ),
     );
@@ -135,7 +127,6 @@ class UserProfileButton extends StatelessWidget {
       children: [
         Expanded(
           child: SizedBox(
-            height: 50,
             child: ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -157,7 +148,8 @@ class UserProfileButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(0), 
+
                   side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
                 ),
               ),
@@ -165,11 +157,10 @@ class UserProfileButton extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 8),
 
         Expanded(
           child: SizedBox(
-            height: 50,
+            height: 60,
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -182,7 +173,7 @@ class UserProfileButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(0),
                   side: const BorderSide(color: Color.fromARGB(153, 61, 61, 61)),
                 ),
               ),
@@ -314,7 +305,6 @@ class _RegisterDialogState extends State<RegisterDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      contentPadding: EdgeInsets.symmetric(horizontal: 70, vertical: 30),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

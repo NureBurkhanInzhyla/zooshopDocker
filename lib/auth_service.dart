@@ -9,15 +9,13 @@ import 'dart:convert';
 
 Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
-  clientId:
-      '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com',
-  scopes: [
-      'email'
-    ],
+    scopes: ['email'],
+    serverClientId: '722768150127-vouo6cv87hb9t7t610m2m6hef8hobnim.apps.googleusercontent.com'
   );
 
    try {
-    final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    print(googleUser);
 
     if (googleUser == null) {
       print('User cancelled sign-in');
@@ -28,6 +26,8 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
 
     final String? idToken = googleAuth?.idToken;
+    print(idToken);
+
     if (idToken == null) {
       print('Could not get idToken');
       return null;
@@ -42,7 +42,6 @@ Future<UserDTO?> signInWithGoogleCustom(BuildContext context) async {
 
   } catch (error, stackTrace) {
     print('Error Google-sign in: $error');
-    print('Stack trace: $stackTrace');
   }
 
 }
@@ -55,11 +54,11 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   UserDTO? get user => _user;
 
-void login({required UserDTO user}) {
-  _isLoggedIn = true;
-  _user = user;
-  notifyListeners();
-}
+  void login({required UserDTO user}) {
+    _isLoggedIn = true;
+    _user = user;
+    notifyListeners();
+  }
 
   void logout() {
     _isLoggedIn = false;
@@ -82,7 +81,7 @@ Future<Map<String, dynamic>?> exchangeServerAuthCodeForTokens(
       'client_secret': 'YOUR_CLIENT_SECRET',
       'code': serverAuthCode,
       'grant_type': 'authorization_code',
-      'redirect_uri': '', // или 'postmessage'
+      'redirect_uri': '', 
     },
   );
 

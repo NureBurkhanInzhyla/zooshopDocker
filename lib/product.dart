@@ -19,22 +19,26 @@ class ProductPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar:  FooterBlock(),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HeaderBlock(),
-            SizedBox(height: 10),
-            Divider(),
-            SizedBox(height: 20),
-            ProductBlock(product: product),
-            SizedBox(height: 30),
-            DetailBlock(product: product),
-            SizedBox(height: 40),
-            RecomendationBlock(product: product),
-            SizedBox(height: 20),
-            FooterBlock(),
-          ],
+        child: SizedBox(
+          width: screenWidth * 0.95,
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HeaderBlock(),
+              SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 20),
+              ProductBlock(product: product),
+              SizedBox(height: 40),
+              DetailBlock(product: product),
+              SizedBox(height: 60),
+              RecomendationBlock(product: product),
+              SizedBox(height: 40)
+            ],
+          ),
         ),
       ),
     );
@@ -56,8 +60,7 @@ class ProductBlock extends StatelessWidget {
           Center(
             child: Image.asset(
               product.image,
-              width: 200,
-              height: 200,
+              height: 300,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) =>
                   Icon(Icons.broken_image),
@@ -67,27 +70,27 @@ class ProductBlock extends StatelessWidget {
           Text(
             product.name,
             style: TextStyle(
-              color: Color.fromARGB(255, 69, 50, 43),
-              fontSize: 20,
+              color: Colors.black87,
+              fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
           ),
           SizedBox(height: 12),
-          Text("Код товару: ${product.id}", style: TextStyle(fontSize: 14)),
+          Text("Код товару: ${product.id}", style: TextStyle(fontSize: 15)),
           SizedBox(height: 12),
           Row(
             children: [
-              Text("Тип: ", style: TextStyle(fontSize: 14)),
+              Text("Тип: ", style: TextStyle(fontSize: 15)),
               SizedBox(width: 4),
-              Text(product.productCategory, style: TextStyle(fontSize: 14)),
+              Text(product.productCategory, style: TextStyle(fontSize: 15)),
             ],
           ),
           SizedBox(height: 8),
           Row(
             children: [
-              Text("Категорія: ", style: TextStyle(fontSize: 14)),
+              Text("Категорія: ", style: TextStyle(fontSize: 15)),
               SizedBox(width: 4),
-              Text(product.petCategory, style: TextStyle(fontSize: 14)),
+              Text(product.petCategory, style: TextStyle(fontSize: 15)),
             ],
           ),
           SizedBox(height: 16),
@@ -120,37 +123,43 @@ class PriceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 150,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
         border: Border.all(color: Colors.grey.shade400),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "$newPrice ₴",
-                style: TextStyle(
-                  color: Color(0xFFF54949),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
+          Padding(
+            padding: EdgeInsets.only(top: 15),
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: 
+                  Text(
+                    "$newPrice ₴",
+                    style: TextStyle(
+                      color: Color(0xFFF54949),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(width: 16),
-              Text(
-                "$oldPrice ₴",
-                style: TextStyle(
-                  color: Color(0xFF848992),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  decoration: TextDecoration.lineThrough,
+                SizedBox(width: 16),
+                Text(
+                  "$oldPrice ₴",
+                  style: TextStyle(
+                    color: Color(0xFF848992),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    decoration: TextDecoration.lineThrough,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(height: 10),
           Padding(
@@ -174,13 +183,12 @@ class PriceCard extends StatelessWidget {
               ),
               child: Text(
                 "Купити",
-                style: TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
           ),
-          SizedBox(height: 8),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.fromLTRB(16, 4, 16, 15),
             child: OutlinedButton(
               onPressed: () {
                 showDialog(
@@ -195,7 +203,7 @@ class PriceCard extends StatelessWidget {
                 ),
                 minimumSize: Size(double.infinity, 36),
               ),
-              child: Text("Купити в один клік", style: TextStyle(fontSize: 14, color: Color(0xFF95C74E))),
+              child: Text("Купити в один клік", style: TextStyle(fontSize: 18, color: Color(0xFF95C74E))),
             ),
           ),
         ],
@@ -267,7 +275,7 @@ class _DetailBlockState extends State<DetailBlock> {
           style: TextStyle(
             color: isSelected ? Colors.purpleAccent : Colors.grey[700],
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            fontSize: 18,
+            fontSize: 19,
           ),
         ),
       ),
@@ -315,20 +323,24 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
         final products = snapshot.data!;
 
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Схожі товари",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Padding(
+                padding: EdgeInsets.only(left: 15), 
+                child: 
+                  Text(
+                    "Схожі товари",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
               ),
               SizedBox(height: 16),
               SizedBox(
-                height: 450,
+                height: 360,
                 child: Row(
                   children: [
                     IconButton(
@@ -345,7 +357,7 @@ class _RecomendationBlockState extends State<RecomendationBlock> {
                         itemBuilder: (context, index) {
                           final product = products[index];
                           return SizedBox(
-                            width: 250,
+                            width: 180,
                             child: mainPage.ProductCard(product: product),
                           );
                         },

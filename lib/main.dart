@@ -10,6 +10,7 @@ import 'package:zooshop/models/Product.dart';
 import 'package:zooshop/product.dart';
 import 'package:zooshop/cartProvider.dart';
 import 'catalog.dart';
+import 'chat_page.dart';
 
 void main() async{
   
@@ -115,31 +116,32 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: FooterBlock(), 
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: screenWidth * 0.82,
+            width: screenWidth * 0.95,
             child: Column(
               children: [
                 HeaderBlock(),
                 SizedBox(height: 50),
                 PromoVetCard(),
-                SizedBox(height: 50),
+                SizedBox(height: 60),
                 SalesBlock(products: salesProducts),
-                SizedBox(height: 130),
+                SizedBox(height: 100),
                 PromoConsultCard(),
                 SizedBox(height: 100),
                 NewsBlock(products: latestFive),
-                SizedBox(height: 50),
+                SizedBox(height: 55),
                 BrandsBlock(),
-                SizedBox(height: 70),
-                FooterBlock(),
+                SizedBox(height: 50), 
               ],
             ),
           ),
         ),
       ),
     );
+
   }
 }
 
@@ -150,8 +152,7 @@ class PromoVetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(32),
-      height: 300,
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 35),
       decoration: BoxDecoration(
         color: Color(0xFF95C74E),
         borderRadius: BorderRadius.circular(12),
@@ -232,8 +233,7 @@ class PromoConsultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      height: 300,
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 35),
       decoration: BoxDecoration(
         color: Color(0xFFFF9955),
         borderRadius: BorderRadius.circular(12),
@@ -263,17 +263,14 @@ class PromoConsultCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 32),
                   SizedBox(
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CatalogPage(searchQuery: "Шампунь"),
-                          ),
-                        );
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const ChatPage(), 
+                        ));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFC16AFF),
@@ -343,15 +340,18 @@ class _SalesBlockState extends State<SalesBlock> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            Padding(padding: EdgeInsets.only(left: 7), 
+            child:  Text(
               "Акції",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
+            ),
+           
           ],
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 435,
+          height: 350,
           child: Row(
             children: [
               IconButton(
@@ -368,7 +368,7 @@ class _SalesBlockState extends State<SalesBlock> {
                   itemBuilder: (context, index) {
                     final product = widget.products[index];
                     return SizedBox(
-                      width: 220,
+                      width: 180,
                       child: ProductCard(product: product),
                     );
                   },
@@ -424,23 +424,14 @@ class _NewsBlockState extends State<NewsBlock> {
           children: [
             Text(
               "Новинки",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Text(
-                  "Дивитись усе",
-                  style: TextStyle(color: Color(0xFF95C74E), fontWeight: FontWeight.w600),
-                ),
-                SizedBox(width: 10),
-                Icon(Icons.arrow_forward, color: Color(0xFF95C74E)),
-              ],
-            ),
+           
           ],
         ),
         SizedBox(height: 30),
         SizedBox(
-          height: 435,
+          height: 350,
           child: Row(
             children: [
               IconButton(
@@ -457,7 +448,7 @@ class _NewsBlockState extends State<NewsBlock> {
                   itemBuilder: (context, index) {
                     final product = widget.products[index];
                     return SizedBox(
-                      width: 220,
+                      width: 180,
                       child: ProductCard(product: product),
                     );
                   },
@@ -483,6 +474,11 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasDiscount = product.discountPercent != null && product.discountPercent! > 0;
+    final double originalPrice = product.price.toDouble();
+    final double discountedPrice = hasDiscount
+        ? originalPrice - (originalPrice * product.discountPercent! / 100)
+        : originalPrice;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -495,8 +491,6 @@ class ProductCard extends StatelessWidget {
           );
         },
       child: Container(
-        width: 200,
-        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(4),
@@ -516,16 +510,15 @@ class ProductCard extends StatelessWidget {
                 SizedBox(height: 18),
                 Image.asset(
                   product.image,
-                  height: 190,
-                  width: 190,
+                  height: 120,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) =>
                     Icon(Icons.broken_image),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 9),
                 Text(
                   product.name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -561,42 +554,47 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  height: 35,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                      if (authProvider.isLoggedIn) {
-                        Provider.of<CartProvider>(context, listen: false)
-                            .addOrUpdateCartItem(product, context);
-                      } else {
-                        showRegisterDialog(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFC16AFF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                        if (authProvider.isLoggedIn) {
+                          Provider.of<CartProvider>(context, listen: false)
+                              .addOrUpdateCartItem(product, context);
+                        } else {
+                          showRegisterDialog(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFC16AFF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'Купити',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: Text(
+                          'Купити',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 7),
                   child: OneClickOrderText(),
                 ),
               ],
             ),
-            if (product.discountPercent != null)
+            if (hasDiscount)
               Positioned(
                 top: 0,
                 left: 0,
@@ -604,10 +602,13 @@ class ProductCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Color(0xFFF54949),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(10),
+                    ),
                   ),
                   child: Text(
-                    '-${product.discountPercent}%',
+                    '-${product.discountPercent!.toStringAsFixed(0)}%',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -616,7 +617,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-          ],
+        ],
         ),
       ),
       ),
@@ -634,12 +635,12 @@ class BrandsBlock extends StatelessWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               'Популярні бренди',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 23,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -715,7 +716,7 @@ class OneClickOrderText extends StatelessWidget {
             text: 'Купити за 1 клік',
             style: TextStyle(
               color: Color(0xFF95C74E),
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w500,
             ),
             recognizer: TapGestureRecognizer()

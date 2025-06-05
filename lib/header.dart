@@ -42,37 +42,6 @@ class HeaderBlock extends StatelessWidget {
 }
 
 
-// class MenuTopNavigation extends StatelessWidget {
-//   const MenuTopNavigation({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           spacing: 30.0,
-//           children: [
-//             Text("О нас"),
-//             Text("Доставка"),
-//             Text("Часті запитання"),
-//             Text("Відгуки"),
-//             Text("Статті"),
-//             Text("Контакти"),
-//             Row(
-//               spacing: 10,
-//               children: [
-//                 Icon(Icons.call, color: Color(0xFF95C74E)),
-//                 Text("+380991992827"),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 class MenuBottomNavigation extends StatelessWidget {
   const MenuBottomNavigation({super.key});
 
@@ -97,12 +66,22 @@ class MenuBottomNavigation extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           if (index == categories.length) {
-            return Row(
-              children: const [
-                Text("Акції", style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(width: 4),
-                Icon(Icons.percent, color: Color(0xFF95C74E)),
-              ],
+            return TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CatalogPage(isPromotional: true),
+                  ),
+                );
+              },
+              child: Row(
+                children: const [
+                  Text("Акції", style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 4),
+                  Icon(Icons.percent, color: Color(0xFF95C74E)),
+                ],
+              ),
             );
           }
 

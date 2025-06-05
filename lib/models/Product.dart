@@ -77,7 +77,6 @@ Future<List<ProductDTO>> fetchProductsByFiltration({
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
-    // Если запрос успешный, парсим JSON
     List<dynamic> data = json.decode(response.body);
     return data.map((item) => ProductDTO.fromJson(item)).toList();
   } else {
