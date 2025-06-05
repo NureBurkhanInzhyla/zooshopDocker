@@ -10,18 +10,18 @@ class FooterBlock extends StatelessWidget {
     return Column(
       children: [
         Divider(height: 1.0, color: Color.fromARGB(255, 182, 169, 159)),
-         Padding(
-          padding: EdgeInsets.symmetric(vertical: 50,  horizontal: screenWidth * 0.1,),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 50,
+            horizontal: screenWidth * 0.1,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Text(
                   "Дізнавайтеся про знижки та\nнові пропозиції найпершими",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),
 
@@ -35,38 +35,46 @@ class FooterBlock extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: "Введіть вашу електронну пошту",
                           hintStyle: TextStyle(
-                            color: Colors.grey,          
-                            fontSize: 16,               
+                            color: Colors.grey,
+                            fontSize: 16,
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(5),
-                          bottomLeft: Radius.circular(5),
-                        ),
+                              topRight: Radius.circular(0),
+                              bottomRight: Radius.circular(0),
+                              topLeft: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
+                            ),
                           ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
+                          ),
                         ),
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(255, 167, 151, 138),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(5),
-                          bottomRight: Radius.circular(5),
-                          topLeft: Radius.circular(0),
-                          bottomLeft: Radius.circular(0),
+                            topRight: Radius.circular(5),
+                            bottomRight: Radius.circular(5),
+                            topLeft: Radius.circular(0),
+                            bottomLeft: Radius.circular(0),
+                          ),
                         ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 22,
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 22),
                       ),
-                      child: Text("Підписатися", style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        "Підписатися",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -74,30 +82,14 @@ class FooterBlock extends StatelessWidget {
             ],
           ),
         ),
-        Divider(height: 1.0, color: Color(0xFF512A09)),
+
         SizedBox(height: 50),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("О нас", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            Text("Доставка", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            Text("Часті запитання", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            Text("Відгуки", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            Text("Статті", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            Text("Контакти", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-          ],
-        ),
-        SizedBox(height: 50),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              "© 2025 Інтернет магазин зоотоварів \n“Пухнастик”",
-            ),
-            Text(
-              "Вартість товарів на сайті не є \nпублічною офертою",
-            ),
-            Text("Умови угоди"),
+            Text("© 2025 Інтернет магазин зоотоварів \n“Пухнастик”"),
+            Text("Вартість товарів на сайті не є \nпублічною офертою"),
+            Text("zooshopPuchanstik@gmail.com"),
             Row(
               spacing: 10,
               children: [
