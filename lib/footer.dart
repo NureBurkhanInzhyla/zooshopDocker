@@ -83,7 +83,7 @@ class FooterBlock extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: 50),
+        SizedBox(height: 25),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
